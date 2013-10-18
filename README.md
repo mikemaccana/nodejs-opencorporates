@@ -12,6 +12,18 @@ Stable: `npm install opencorporates`
 Source: `npm install git+https://github.com/fvdm/nodejs-opencorporates`
 
 
+Configuration
+-------------
+
+These settings affect all method calls.
+
+	api_token   Your API key if you have one.
+
+```js
+corp.api_token = 'abc123'
+```
+
+
 Usage
 -----
 
