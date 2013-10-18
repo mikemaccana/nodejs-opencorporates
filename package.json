@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name":               "Franklin van de Meent",
+    "email":              "fr@nkl.in",
+    "url":                "http://frankl.in"
+  },
+  "name":                 "opencorporates",
+  "description":          "Unofficial module for OpenCorporates API.",
+  "version":              "1.0.0",
+  "repository": {
+    "type":               "git",
+    "url":                "git://github.com/fvdm/nodejs-opencorporates.git"
+  },
+  "bugs": {
+    "url":                "https://github.com/fvdm/nodejs-opencorporates/issues"
+  },
+  "main":                 "opencorporates.js",
+  "dependencies":         {},
+  "devDependencies":      {},
+  "optionalDependencies": {},
+  "engines": {
+    "node":               "*"
+  },
+  "keywords":             ["opencorporates", "companies", "gov", "government"],
+  "license": {
+    "type":               "Public Domain",
+    "url":                "https://github.com/fvdm/nodejs-opencorporates/raw/master/LICENSE"
+  }
+}
