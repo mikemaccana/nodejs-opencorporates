@@ -34,13 +34,13 @@ module.exports.companies.search = function( query, vars, callback ) {
 }
 
 // companies.filings
-module.exports.companies.filings = function( id, vars, callback ) {
+module.exports.companies.filings = function( juris, id, vars, callback ) {
 	if( typeof vars === 'function' ) {
 		var callback = vars
 		var vars = false
 	}
 	
-	talk( 'filings/'+ id, function( err, res ) {
+	talk( 'companies/'+ juris +'/'+ id +'/filings', function( err, res ) {
 		callback( err, cleanObject( res.filings, 'filing' ), setMeta( res ) )
 	})
 }
