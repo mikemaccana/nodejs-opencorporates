@@ -167,6 +167,35 @@ corp.companies.filings( 'C3268102', console.log )
 	
 	per_page            number of results, max. 100   30
 	page                results page                  1
+
+
+Officers
+--------
+
+### officers.get ( id, callback )
+
+Get an officer by ID.
+
+```js
+corp.officers.get( '21200360', console.log )
+```
+
+
+### officers.search ( query, [vars], callback )
+
+Search officers.
+
+```js
+corp.officers.search( 'bart simpson', callback )
+```
+
+#### Filters
+
+	filter name         description                   default
+	
+	jurisdiction_code   `us_ca`, `nl`                 [none/worldwide]
+	per_page            number of results, max. 100   30
+	page                results page                  1
 Unlicense
 ---------
 
