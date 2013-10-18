@@ -67,8 +67,9 @@ Callback
 
 The last parameter of each method must be the *callback function*. This receives two or three parameters, depending on the kind of data. 'Get' methods (i.e. companies.get) give the callback two parameters, 'list' methods give an extra parameter with *meta* data such as total items.
 
+#### Expect only one result
+
 ```js
-// Expect only one result
 corp.companies.get( 'us_ca', 'C3268102', function( error, data ) {
 	if( error ) {
 		console.log( error )
@@ -76,8 +77,11 @@ corp.companies.get( 'us_ca', 'C3268102', function( error, data ) {
 		console.log( data.name +' incorporated on '+ data.incorporation_date )
 	}
 })
+```
 
-// Expect list array with objects
+#### Expect list array
+
+```js
 corp.companies.search( 'github', function( error, data, meta ) {
 	if( error ) {
 		console.log( error )
