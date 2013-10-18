@@ -86,6 +86,87 @@ The meta parameter is an object with numeric information about the `data` array.
   total_pages: 2,
   total_count: 42 }
 ```
+
+
+Companies
+---------
+
+### companies.get ( jurisdiction, id, callback )
+
+Get one specific company.
+
+	jurisdiction   required   jurisdiction code, i.e. `us_ca` or `nl`
+	id             required   company ID
+	callback       required   function( error, data )
+
+
+```js
+corp.companies.get( 'us_ca', 'C3268102', console.log )
+```
+
+
+### companies.search ( query, [vars], callback )
+
+Find companies matching `query` worldwide or filtered.
+
+	query      required   keyword(s)
+	vars       option     filters, see below
+	callback   required   function( error, data, meta )
+
+```js
+corp.companies.search( 'github', {order: 'score'}, console.log )
+```
+
+#### Filters
+
+	filter name         description                   default
+	
+	jurisdiction_code   `us_ca`, `nl`                 [none/worldwide]
+	order               `score`                       alphabetic
+	per_page            number of results, max. 100   30
+	page                results page                  1
+
+
+### companies.filings ( jurisdiction, id, [vars], callback )
+
+Get available filings for a company.
+
+	jurisdiction   required   `us_ca`, `nl`
+	id             required   company ID
+	vars           option     filters
+	callback       required   function( error, data, meta )
+
+```js
+corp.companies.filings( 'C3268102', console.log )
+```
+
+#### Filters
+
+	filter name         description                   default
+	
+	per_page            number of results, max. 100   30
+	page                results page                  1
+
+
+### companies.data ( jurisdiction, id, [vars], callback )
+
+Get more available data for a company.
+
+	jurisdiction   required   `us_ca`, `nl`
+	id             required   company ID
+	vars           option     filters
+	callback       required   function( error, data, meta )
+
+```js
+corp.companies.filings( 'C3268102', console.log )
+```
+
+#### Filters
+
+	filter name         description                   default
+	
+	per_page            number of results, max. 100   30
+	page                results page                  1
 Unlicense
 ---------
 
