@@ -129,7 +129,7 @@ Find companies matching `query` worldwide or filtered.
 corp.companies.search( 'github', {order: 'score'}, console.log )
 ```
 
-#### Filters
+#### vars
 
 	filter name         description                   default
 	
@@ -152,7 +152,7 @@ Get available filings for a company.
 corp.companies.filings( 'C3268102', console.log )
 ```
 
-#### Filters
+#### vars
 
 	filter name         description                   default
 	
@@ -173,7 +173,7 @@ Get more available data for a company.
 corp.companies.filings( 'C3268102', console.log )
 ```
 
-#### Filters
+#### vars
 
 	filter name         description                   default
 	
@@ -201,7 +201,7 @@ Search officers.
 corp.officers.search( 'bart simpson', callback )
 ```
 
-#### Filters
+#### vars
 
 	filter name         description                   default
 	
