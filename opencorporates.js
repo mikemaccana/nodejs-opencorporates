@@ -196,10 +196,10 @@ function talk( path, fields, callback ) {
 function setMeta( res ) {
 	var res = res || {}
 	return {
-		page: res.page || null,
-		per_page: res.per_page || null,
-		total_pages: res.total_pages || null,
-		total_count: res.total_count || null
+		page: res.page || 0,
+		per_page: res.per_page || 0,
+		total_pages: res.total_pages || 0,
+		total_count: res.total_count || 0
 	}
 }
 
