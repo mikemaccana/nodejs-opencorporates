@@ -3,6 +3,10 @@ nodejs-opencorporates
 
 Unofficial Node.js module for the OpenCorporates API.
 
+[API documentation](http://api.opencorporates.com/documentation/REST-API-introduction)
+
+[Node.js](http://nodejs.org/)
+
 
 Installation
 ------------
