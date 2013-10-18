@@ -12,6 +12,38 @@ Stable: `npm install opencorporates`
 Source: `npm install git+https://github.com/fvdm/nodejs-opencorporates`
 
 
+Usage
+-----
+
+```js
+var corp = require('opencorporates')
+
+// Optionally set api_token to increase rate limit
+corp.api_token = 'abc123'
+
+corp.companies.search( 'github', console.log )
+```
+
+This should return an array with objects, like this:
+
+```js
+[ { name: 'GITHUB, INC.',
+    company_number: 'C3268102',
+    jurisdiction_code: 'us_ca',
+    incorporation_date: '2009-12-31',
+    dissolution_date: null,
+    company_type: 'Domestic Stock',
+    registry_url: 'https://businessfilings.sos.ca.gov/frmDetail.asp?CorpID=03268102',
+    branch_status: null,
+    inactive: false,
+    current_status: 'Active',
+    created_at: '2011-09-17T15:33:31+01:00',
+    updated_at: '2013-04-30T09:24:30+01:00',
+    retrieved_at: '2012-04-03T07:19:16+01:00',
+    opencorporates_url: 'http://opencorporates.com/companies/us_ca/C3268102',
+    previous_names: null,
+    source: { publisher: 'California Secretary of State',        url: 'http://kepler.sos.ca.gov/',        retrieved_at: '2012-04-03T07:19:16+01:00' } } ]
+```
 Unlicense
 ---------
 
