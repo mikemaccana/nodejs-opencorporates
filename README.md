@@ -210,6 +210,74 @@ corp.officers.search( 'bart simpson', callback )
 	page                results page                  1
 
 
+Corporate groupings
+-------------------
+
+"A CorporateGrouping is a user-curated collection of companies that belong to some human-understand concept of a corporation (which maps to the Wikipedia article about that corporation)."
+
+<http://blog.opencorporates.com/2011/06/01/introducing-corporategroupings-where-fuzzy-concepts-meet-legal-entities/>
+
+
+### corporateGroupings.get ( name, callback )
+
+Get extended data about a corporate grouping, by its name.
+
+```js
+corp.corporateGroupings.get( 'bp', console.log )
+```
+
+#### example (trimmed)
+
+```js
+{ name: 'bp',
+  wikipedia_id: 'BP',
+  companies_count: 8,
+  created_at: '2011-05-30T17:33:45+01:00',
+  updated_at: '2013-10-14T05:46:20+01:00',
+  curators: 
+    [ { name: 'Chris Taggart',
+        opencorporates_url: 'http://opencorporates.com/users/1' },
+    { name: 'inanimatt',
+        opencorporates_url: 'http://opencorporates.com/users/1374' } ],
+  memberships: 
+    [ { source: 
+          { publisher: 'Chris Taggart',
+          retrieved_at: '2011-06-01T14:17:27+01:00',
+          url: 'http://opencorporates.com/users/1',
+          source_type: 'user' },
+        company: 
+          { name: 'BP P.L.C.',
+          jurisdiction_code: 'gb',
+          company_number: '00102498',
+          opencorporates_url: 'http://opencorporates.com/companies/gb/00102498',
+          inactive: false } } ] }
+```
+
+
+### corporateGroupings.search ( query, [vars], callback )
+
+```js
+corp.corporateGroupings.search( 'bp', console.log )
+```
+
+#### vars
+
+	filter name         description                   default
+	
+	per_page            number of results, max. 100   30
+	page                results page                  1
+
+#### example
+
+```
+[ { name: 'bp',
+    created_at: '2011-05-30T17:33:45+01:00',
+    updated_at: '2013-10-14T05:46:20+01:00',
+    opencorporates_url: 'http://opencorporates.com/corporate_groupings/bp',
+    wikipedia_id: 'BP' } ]
+```
+
+
 Unlicense
 ---------
 
