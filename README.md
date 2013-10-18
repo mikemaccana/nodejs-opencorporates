@@ -44,6 +44,48 @@ This should return an array with objects, like this:
     previous_names: null,
     source: { publisher: 'California Secretary of State',        url: 'http://kepler.sos.ca.gov/',        retrieved_at: '2012-04-03T07:19:16+01:00' } } ]
 ```
+
+
+Callback
+--------
+
+The last parameter of each method must be the *callback function*. This receives two or three parameters, depending on the kind of data. 'Get' methods (i.e. companies.get) give the callback two parameters, 'list' methods give an extra parameter with *meta* data such as total items.
+
+```js
+// Expect only one result
+corp.companies.get( 'us_ca', 'C3268102', function( error, data ) {
+	if( error ) {
+		console.log( error )
+	} else {
+		console.log( data.name +' incorporated on '+ data.incorporation_date )
+	}
+})
+
+// Expect list array with objects
+corp.companies.search( 'github', function( error, data, meta ) {
+	if( error ) {
+		console.log( error )
+	} else if( meta.total_count >= 1 ) {
+		console.log( 'Total results: '+ meta.total_count )
+		for( var i=0; i<data; i++ ) {
+			console.log( data[i].name )
+		}
+	} else {
+		console.log( 'no results' )
+	}
+})
+```
+
+### meta data
+
+The meta parameter is an object with numeric information about the `data` array.
+
+```js
+{ page: 1,
+  per_page: 30,
+  total_pages: 2,
+  total_count: 42 }
+```
 Unlicense
 ---------
 
