@@ -46,13 +46,13 @@ module.exports.companies.filings = function( juris, id, vars, callback ) {
 }
 
 // companies.data
-module.exports.companies.data = function( id, vars, callback ) {
+module.exports.companies.data = function( juris, id, vars, callback ) {
 	if( typeof vars === 'function' ) {
 		var callback = vars
 		var vars = false
 	}
 	
-	talk( 'data/'+ id, vars, function( err, res ) {
+	talk( 'companies/'+ juris +'/'+ id +'/data', vars, function( err, res ) {
 		callback( err, cleanObject( res.data, 'datum' ), setMeta( res ) )
 	})
 }
