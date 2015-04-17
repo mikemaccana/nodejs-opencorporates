@@ -24,8 +24,8 @@ module.exports.companies.get = function( juris, id, callback ) {
 // companies.search
 module.exports.companies.search = function( query, vars, callback ) {
 	if( typeof vars === 'function' ) {
-		var callback = vars
-		var vars = {}
+		callback = vars
+		vars = {}
 	}
 	vars.q = query
 	talk( 'companies/search', vars, function( err, res ) {
@@ -36,10 +36,10 @@ module.exports.companies.search = function( query, vars, callback ) {
 // companies.filings
 module.exports.companies.filings = function( juris, id, vars, callback ) {
 	if( typeof vars === 'function' ) {
-		var callback = vars
-		var vars = false
+		callback = vars
+		vars = false
 	}
-	
+
 	talk( 'companies/'+ juris +'/'+ id +'/filings', function( err, res ) {
 		callback( err, cleanObject( res.filings, 'filing' ), setMeta( res ) )
 	})
@@ -48,10 +48,10 @@ module.exports.companies.filings = function( juris, id, vars, callback ) {
 // companies.data
 module.exports.companies.data = function( juris, id, vars, callback ) {
 	if( typeof vars === 'function' ) {
-		var callback = vars
-		var vars = false
+		callback = vars
+		vars = false
 	}
-	
+
 	talk( 'companies/'+ juris +'/'+ id +'/data', vars, function( err, res ) {
 		callback( err, cleanObject( res.data, 'datum' ), setMeta( res ) )
 	})
@@ -71,8 +71,8 @@ module.exports.officers.get = function( id, callback ) {
 // officers.search
 module.exports.officers.search = function( query, vars, callback ) {
 	if( typeof vars === 'function' ) {
-		var callback = vars
-		var vars = {}
+		callback = vars
+		vars = {}
 	}
 	vars.q = query
 	talk( 'officers/search', vars, function( err, res ) {
@@ -89,16 +89,15 @@ module.exports.corporateGroupings.get = function( name, callback ) {
 	talk( 'corporate_groupings/'+ name, function( err, res ) {
 		var corp = {}
 		corp = (res && res.corporate_grouping) ? res.corporate_grouping : null
-		delete res
-		
+
 		if( corp && corp.curators !== undefined ) {
 			corp.curators = cleanObject( corp.curators, 'user' )
 		}
-		
+
 		if( corp && corp.memberships !== undefined ) {
 			corp.memberships = cleanObject( corp.memberships, 'membership' )
 		}
-		
+
 		callback( err, corp )
 	})
 }
@@ -106,11 +105,11 @@ module.exports.corporateGroupings.get = function( name, callback ) {
 // corporateGroupings.search()
 module.exports.corporateGroupings.search = function( query, vars, callback ) {
 	if( typeof vars === 'function' ) {
-		var callback = vars
-		var vars = {}
+		callback = vars
+		vars = {}
 	}
 	vars.q = query
-	
+
 	talk( 'corporate_groupings/search', vars, function( err, res ) {
 		callback( err, cleanObject( res.corporate_groupings, 'corporate_grouping' ), setMeta( res ) )
 	})
@@ -120,10 +119,10 @@ module.exports.corporateGroupings.search = function( query, vars, callback ) {
 // Communication
 function talk( path, fields, callback ) {
 	if( typeof fields === 'function' ) {
-		var callback = fields
-		var fields = false
+		callback = fields
+		fields = false
 	}
-	
+
 	// prevent multiple callbacks
 	var complete = false
 	function doCallback( err, res ) {
@@ -132,16 +131,15 @@ function talk( path, fields, callback ) {
 			callback( err, res )
 		}
 	}
-	
+
 	// build request
 	if( typeof module.exports.api_token === 'string') {
 		fields = fields || {}
 		fields.api_token = module.exports.api_token
 	}
-	
+
 	var query = fields ? '?'+ querystring.stringify( fields ) : ''
-	delete fields
-	
+
 	var options = {
 		host: 'api.opencorporates.com',
 		path: '/v0.2/'+ path + query,
@@ -149,28 +147,28 @@ function talk( path, fields, callback ) {
 			'User-Agent': 'opencorporates.js (https://github.com/fvdm/nodejs-opencorporates)'
 		}
 	}
-	
+
 	var request = http.request( options )
-	
+
 	// request failed
 	request.on( 'error', function( error ) {
 		var err = new Error('request failed')
 		err.error = error
 		doCallback( err )
 	})
-	
+
 	// response
 	request.on( 'response', function( response ) {
 		var data = ''
-		
+
 		response.on( 'data', function( ch ) {
 			data += ch.toString('utf8')
 		})
-		
+
 		response.on( 'close', function() {
 			doCallback( new Error('disconnected') )
 		})
-		
+
 		response.on( 'end', function() {
 			if( response.statusCode !== 200 ) {
 				var err = new Error('API error')
@@ -187,14 +185,14 @@ function talk( path, fields, callback ) {
 			}
 		})
 	})
-	
+
 	// do it
 	request.end()
 }
 
 // Build meta data
 function setMeta( res ) {
-	var res = res || {}
+	res = res || {}
 	return {
 		page: res.page || 0,
 		per_page: res.per_page || 0,
@@ -228,6 +226,6 @@ function getError( code ) {
 		502: 'Bad Gateway: OpenCorporates is down or being upgraded.',
 		503: 'Service Unavailable: The OpenCorporates servers are up, but overloaded with requests. This is also the response code returned if a company\'s details have been temporarily redacted.'
 	}
-	
+
 	return errors[ code ] || null
 }
