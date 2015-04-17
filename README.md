@@ -13,49 +13,44 @@ Stable: `npm install opencorporates`
 Master: `npm install fvdm/nodejs-opencorporates`
 
 
-Configuration
--------------
-
-These settings affect all method calls.
-
-	api_token   Your API key if you have one.
-
-```js
-corp.api_token = 'YOUR_API_TOKEN'
-```
-
-
 Usage
 -----
 
 ```js
-var corp = require('opencorporates')
+var openCorporates = require('opencorporates')('YOUR_API_TOKEN')
+```
 
-// Optionally set api_token to increase rate limit
-corp.api_token = 'abc123'
+If you do not have an API key, you may omit it, but iwll have a lower rate limit:
 
-corp.companies.search( 'github', console.log )
+```js
+var openCorporates = require('opencorporates')()
+```
+
+
+openCorporates.companies.search( 'github', console.log )
 ```
 
 This should return an array with objects, like this:
 
 ```js
 [ { name: 'GITHUB, INC.',
-    company_number: 'C3268102',
-    jurisdiction_code: 'us_ca',
-    incorporation_date: '2009-12-31',
-    dissolution_date: null,
-    company_type: 'Domestic Stock',
-    registry_url: 'https://businessfilings.sos.ca.gov/frmDetail.asp?CorpID=03268102',
-    branch_status: null,
-    inactive: false,
-    current_status: 'Active',
-    created_at: '2011-09-17T15:33:31+01:00',
-    updated_at: '2013-04-30T09:24:30+01:00',
-    retrieved_at: '2012-04-03T07:19:16+01:00',
-    opencorporates_url: 'http://opencorporates.com/companies/us_ca/C3268102',
-    previous_names: null,
-    source: { publisher: 'California Secretary of State',        url: 'http://kepler.sos.ca.gov/',        retrieved_at: '2012-04-03T07:19:16+01:00' } } ]
+	company_number: 'C3268102',
+	jurisdiction_code: 'us_ca',
+	incorporation_date: '2009-12-31',
+	dissolution_date: null,
+	company_type: 'Domestic Stock',
+	registry_url: 'https://businessfilings.sos.ca.gov/frmDetail.asp?CorpID=03268102',
+	branch_status: null,
+	inactive: false,
+	current_status: 'Active',
+	created_at: '2011-09-17T15:33:31+01:00',
+	updated_at: '2013-04-30T09:24:30+01:00',
+	retrieved_at: '2012-04-03T07:19:16+01:00',
+	opencorporates_url: 'http://opencorporates.com/companies/us_ca/C3268102',
+	previous_names: null,
+	source: { publisher: 'California Secretary of State',
+		url: 'http://kepler.sos.ca.gov/',
+		retrieved_at: '2012-04-03T07:19:16+01:00' } } ]
 ```
 
 
@@ -67,7 +62,7 @@ The last parameter of each method must be the *callback function*. This receives
 #### Expect only one result
 
 ```js
-corp.companies.get( 'us_ca', 'C3268102', function( error, data ) {
+openCorporates.companies.get( 'us_ca', 'C3268102', function( error, data ) {
 	if( error ) {
 		console.log( error )
 	} else {
@@ -79,7 +74,7 @@ corp.companies.get( 'us_ca', 'C3268102', function( error, data ) {
 #### Expect list array
 
 ```js
-corp.companies.search( 'github', function( error, data, meta ) {
+openCorporates.companies.search( 'github', function( error, data, meta ) {
 	if( error ) {
 		console.log( error )
 	} else if( meta.total_count >= 1 ) {
@@ -240,22 +235,22 @@ corp.corporateGroupings.get( 'bp', console.log )
   created_at: '2011-05-30T17:33:45+01:00',
   updated_at: '2013-10-14T05:46:20+01:00',
   curators: 
-    [ { name: 'Chris Taggart',
-        opencorporates_url: 'http://opencorporates.com/users/1' },
-    { name: 'inanimatt',
-        opencorporates_url: 'http://opencorporates.com/users/1374' } ],
+	[ { name: 'Chris Taggart',
+		opencorporates_url: 'http://opencorporates.com/users/1' },
+	{ name: 'inanimatt',
+		opencorporates_url: 'http://opencorporates.com/users/1374' } ],
   memberships: 
-    [ { source: 
-          { publisher: 'Chris Taggart',
-          retrieved_at: '2011-06-01T14:17:27+01:00',
-          url: 'http://opencorporates.com/users/1',
-          source_type: 'user' },
-        company: 
-          { name: 'BP P.L.C.',
-          jurisdiction_code: 'gb',
-          company_number: '00102498',
-          opencorporates_url: 'http://opencorporates.com/companies/gb/00102498',
-          inactive: false } } ] }
+	[ { source: 
+		  { publisher: 'Chris Taggart',
+		  retrieved_at: '2011-06-01T14:17:27+01:00',
+		  url: 'http://opencorporates.com/users/1',
+		  source_type: 'user' },
+		company: 
+		  { name: 'BP P.L.C.',
+		  jurisdiction_code: 'gb',
+		  company_number: '00102498',
+		  opencorporates_url: 'http://opencorporates.com/companies/gb/00102498',
+		  inactive: false } } ] }
 ```
 
 
@@ -276,10 +271,10 @@ corp.corporateGroupings.search( 'bp', console.log )
 
 ```
 [ { name: 'bp',
-    created_at: '2011-05-30T17:33:45+01:00',
-    updated_at: '2013-10-14T05:46:20+01:00',
-    opencorporates_url: 'http://opencorporates.com/corporate_groupings/bp',
-    wikipedia_id: 'BP' } ]
+	created_at: '2011-05-30T17:33:45+01:00',
+	updated_at: '2013-10-14T05:46:20+01:00',
+	opencorporates_url: 'http://opencorporates.com/corporate_groupings/bp',
+	wikipedia_id: 'BP' } ]
 ```
 
 

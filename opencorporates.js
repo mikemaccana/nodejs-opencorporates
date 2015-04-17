@@ -8,116 +8,11 @@ License:      Public Domain (Unlicense) - see LICENSE file
 */
 
 var http = require('http')
-var querystring = require('querystring')
-module.exports = { api_token: null }
-
-// Companies
-module.exports.companies = {}
-
-// companies.get
-module.exports.companies.get = function( juris, id, callback ) {
-	talk( 'companies/'+ juris +'/'+ id, function( err, res ) {
-		callback( err, (res && res.company) ? res.company : null )
-	})
-}
-
-// companies.search
-module.exports.companies.search = function( query, vars, callback ) {
-	if( typeof vars === 'function' ) {
-		callback = vars
-		vars = {}
-	}
-	vars.q = query
-	talk( 'companies/search', vars, function( err, res ) {
-		callback( err, cleanObject( res.companies, 'company' ), setMeta( res ) )
-	})
-}
-
-// companies.filings
-module.exports.companies.filings = function( juris, id, vars, callback ) {
-	if( typeof vars === 'function' ) {
-		callback = vars
-		vars = false
-	}
-
-	talk( 'companies/'+ juris +'/'+ id +'/filings', function( err, res ) {
-		callback( err, cleanObject( res.filings, 'filing' ), setMeta( res ) )
-	})
-}
-
-// companies.data
-module.exports.companies.data = function( juris, id, vars, callback ) {
-	if( typeof vars === 'function' ) {
-		callback = vars
-		vars = false
-	}
-
-	talk( 'companies/'+ juris +'/'+ id +'/data', vars, function( err, res ) {
-		callback( err, cleanObject( res.data, 'datum' ), setMeta( res ) )
-	})
-}
+var querystring = require('querystring');
 
 
-// Officers
-module.exports.officers = {}
 
-// officers.get()
-module.exports.officers.get = function( id, callback ) {
-	talk( 'officers/'+ id, function( err, res ) {
-		callback( err, (res && res.officer) ? res.officer : null )
-	})
-}
-
-// officers.search
-module.exports.officers.search = function( query, vars, callback ) {
-	if( typeof vars === 'function' ) {
-		callback = vars
-		vars = {}
-	}
-	vars.q = query
-	talk( 'officers/search', vars, function( err, res ) {
-		callback( err, cleanObject( res.officers, 'officer' ), setMeta( res ) )
-	})
-}
-
-
-// Corporate Groupings
-module.exports.corporateGroupings = {}
-
-// corporateGroupings.get()
-module.exports.corporateGroupings.get = function( name, callback ) {
-	talk( 'corporate_groupings/'+ name, function( err, res ) {
-		var corp = {}
-		corp = (res && res.corporate_grouping) ? res.corporate_grouping : null
-
-		if( corp && corp.curators !== undefined ) {
-			corp.curators = cleanObject( corp.curators, 'user' )
-		}
-
-		if( corp && corp.memberships !== undefined ) {
-			corp.memberships = cleanObject( corp.memberships, 'membership' )
-		}
-
-		callback( err, corp )
-	})
-}
-
-// corporateGroupings.search()
-module.exports.corporateGroupings.search = function( query, vars, callback ) {
-	if( typeof vars === 'function' ) {
-		callback = vars
-		vars = {}
-	}
-	vars.q = query
-
-	talk( 'corporate_groupings/search', vars, function( err, res ) {
-		callback( err, cleanObject( res.corporate_groupings, 'corporate_grouping' ), setMeta( res ) )
-	})
-}
-
-
-// Communication
-function talk( path, fields, callback ) {
+var openCorpRequest = function( path, fields, callback ) {
 	if( typeof fields === 'function' ) {
 		callback = fields
 		fields = false
@@ -173,7 +68,7 @@ function talk( path, fields, callback ) {
 			if( response.statusCode !== 200 ) {
 				var err = new Error('API error')
 				err.code = response.statusCode
-				err.error = getError( response.statusCode )
+				err.error = getOpenCorporatesError( response.statusCode )
 				doCallback( err )
 			} else {
 				data = JSON.parse( data )
@@ -190,8 +85,97 @@ function talk( path, fields, callback ) {
 	request.end()
 }
 
-// Build meta data
-function setMeta( res ) {
+module.exports = function(apiToken){
+	apiToken = apiToken || null
+
+	return {
+		companies: {
+			get: function( juris, id, callback ) {
+				openCorpRequest( 'companies/'+ juris +'/'+ id, function( err, res ) {
+					callback( err, (res && res.company) ? res.company : null )
+				})
+			},
+			search: function( query, vars, callback ) {
+				if ( typeof vars === 'function' ) {
+					callback = vars
+					vars = {}
+				}
+				vars.q = query
+				openCorpRequest( 'companies/search', vars, function( err, res ) {
+					callback( err, cleanResponse( res.companies, 'company' ), buildMetaData( res ) )
+				})
+			},
+			filings: function( juris, id, vars, callback ) {
+				if ( typeof vars === 'function' ) {
+					callback = vars
+					vars = false
+				}
+
+				openCorpRequest( 'companies/'+ juris +'/'+ id +'/filings', function( err, res ) {
+					callback( err, cleanResponse( res.filings, 'filing' ), buildMetaData( res ) )
+				})
+			},
+			data: function( juris, id, vars, callback ) {
+				if ( typeof vars === 'function' ) {
+					callback = vars
+					vars = false
+				}
+
+				openCorpRequest( 'companies/'+ juris +'/'+ id +'/data', vars, function( err, res ) {
+					callback( err, cleanResponse( res.data, 'datum' ), buildMetaData( res ) )
+				})
+			}
+		},
+		officers: {
+			get: function( id, callback ) {
+				openCorpRequest( 'officers/'+ id, function( err, res ) {
+					callback( err, (res && res.officer) ? res.officer : null )
+				})
+			},
+			search: function( query, vars, callback ) {
+				if( typeof vars === 'function' ) {
+					callback = vars
+					vars = {}
+				}
+				vars.q = query
+				openCorpRequest( 'officers/search', vars, function( err, res ) {
+					callback( err, cleanResponse( res.officers, 'officer' ), buildMetaData( res ) )
+				})
+			}
+		},
+		corporateGroupings: {
+			get: function( name, callback ) {
+				openCorpRequest( 'corporate_groupings/'+ name, function( err, res ) {
+					var corp = {}
+					corp = (res && res.corporate_grouping) ? res.corporate_grouping : null
+
+					if( corp && corp.curators !== undefined ) {
+						corp.curators = cleanResponse( corp.curators, 'user' )
+					}
+
+					if( corp && corp.memberships !== undefined ) {
+						corp.memberships = cleanResponse( corp.memberships, 'membership' )
+					}
+
+					callback( err, corp )
+				})
+			},
+			search: function( query, vars, callback ) {
+				if( typeof vars === 'function' ) {
+					callback = vars
+					vars = {}
+				}
+				vars.q = query
+
+				openCorpRequest( 'corporate_groupings/search', vars, function( err, res ) {
+					callback( err, cleanResponse( res.corporate_groupings, 'corporate_grouping' ), buildMetaData( res ) )
+				})
+			}
+		}
+	}
+}
+
+var buildMetaData = function( res ) {
 	res = res || {}
 	return {
 		page: res.page || 0,
@@ -201,8 +185,7 @@ function setMeta( res ) {
 	}
 }
 
-// Clean up common object trees
-function cleanObject( obj, item ) {
+var cleanResponse = function( obj, item ) {
 	var data = false
 	if( typeof obj === 'object' ) {
 		data = []
@@ -213,8 +196,7 @@ function cleanObject( obj, item ) {
 	return data || obj
 }
 
-// Return error
-function getError( code ) {
+var getOpenCorporatesError = function( code ) {
 	var errors = {
 		304: 'Not Modified: There was no new data to return.',
 		400: 'Bad Request: The request was invalid. An accompanying error message will explain why.',
@@ -229,3 +211,4 @@ function getError( code ) {
 
 	return errors[ code ] || null
 }
+
