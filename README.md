@@ -1,19 +1,16 @@
-opencorporates
-=====================
+# opencorporates
 
-Unofficial node.js module for the OpenCorporates API.
+A node.js module for the OpenCorporates API.
 
 [API documentation](http://api.opencorporates.com/documentation/REST-API-introduction)
 
-Installation
-------------
+## Installation
 
 Stable: `npm install opencorporates`
 
-Master: `npm install fvdm/nodejs-opencorporates`
+Head: `npm install fvdm/nodejs-opencorporates`
 
-Usage
------
+## Usage
 
 ```js
 var openCorporates = require('opencorporates')('YOUR_API_TOKEN')
@@ -130,7 +127,7 @@ corp.companies.search( 'github', {order: 'score'}, console.log )
 #### vars
 
 	filter name         description                   default
-	
+
 	jurisdiction_code   `us_ca`, `nl`                 [none/worldwide]
 	order               `score`                       alphabetic
 	per_page            number of results, max. 100   30
@@ -153,7 +150,7 @@ corp.companies.filings( 'C3268102', console.log )
 #### vars
 
 	filter name         description                   default
-	
+
 	per_page            number of results, max. 100   30
 	page                results page                  1
 
@@ -174,7 +171,7 @@ corp.companies.filings( 'C3268102', console.log )
 #### vars
 
 	filter name         description                   default
-	
+
 	per_page            number of results, max. 100   30
 	page                results page                  1
 
@@ -202,7 +199,7 @@ corp.officers.search( 'bart simpson', callback )
 #### vars
 
 	filter name         description                   default
-	
+
 	jurisdiction_code   `us_ca`, `nl`                 [none/worldwide]
 	per_page            number of results, max. 100   30
 	page                results page                  1
@@ -232,18 +229,18 @@ corp.corporateGroupings.get( 'bp', console.log )
   companies_count: 8,
   created_at: '2011-05-30T17:33:45+01:00',
   updated_at: '2013-10-14T05:46:20+01:00',
-  curators: 
+  curators:
 	[ { name: 'Chris Taggart',
 		opencorporates_url: 'http://opencorporates.com/users/1' },
 	{ name: 'inanimatt',
 		opencorporates_url: 'http://opencorporates.com/users/1374' } ],
-  memberships: 
-	[ { source: 
+  memberships:
+	[ { source:
 		  { publisher: 'Chris Taggart',
 		  retrieved_at: '2011-06-01T14:17:27+01:00',
 		  url: 'http://opencorporates.com/users/1',
 		  source_type: 'user' },
-		company: 
+		company:
 		  { name: 'BP P.L.C.',
 		  jurisdiction_code: 'gb',
 		  company_number: '00102498',
@@ -261,7 +258,7 @@ corp.corporateGroupings.search( 'bp', console.log )
 #### vars
 
 	filter name         description                   default
-	
+
 	per_page            number of results, max. 100   30
 	page                results page                  1
 
