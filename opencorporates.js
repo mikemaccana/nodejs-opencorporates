@@ -43,6 +43,7 @@ module.exports = function(apiToken){
 		.end(function(err, res) {
 			// OpenCorporates has some extra info with their errors
 			err = OPEN_CORPORATES_ERRORS[res.status] || err
+			// cb( err, camelify(res.body) )
 			cb( err, res.body )
 		})
 	}
@@ -52,13 +53,26 @@ module.exports = function(apiToken){
 			get: function( jurisdiction, id, cb ) {
 				openCorporatesGet( 'companies/'+jurisdiction+'/'+id, cb)
 			},
-			search: function( query, query, cb ) {
+			search: function( searchTerm, query, cb ) {
+				if ( typeof query === 'function' ) {
+					var cb = query
+					var query = {}
+				}
+				query.q = searchTerm // 'q' is OpenCorporates for search term
 				openCorporatesGet( 'companies/search', query, cb)
 			},
 			filings: function( jurisdiction, id, query, cb ) {
+				if ( typeof query === 'function' ) {
+					var cb = query
+					var query = {}
+				}
 				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/filings', cb)
 			},
 			data: function( jurisdiction, id, query, cb ) {
+				if ( typeof query === 'function' ) {
+					var cb = query
+					var query = {}
+				}
 				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/data', query, cb)
 			}
 		},
@@ -66,7 +80,12 @@ module.exports = function(apiToken){
 			get: function( id, cb ) {
 				openCorporatesGet( 'officers/'+id, cb)
 			},
-			search: function( query, query, cb ) {
+			search: function( searchTerm, query, cb ) {
+				if ( typeof query === 'function' ) {
+					var cb = query
+					var query = {}
+				}
+				query.q = searchTerm // 'q' is OpenCorporates for search term
 				openCorporatesGet( 'officers/search', query, cb)
 			}
 		},
@@ -74,7 +93,12 @@ module.exports = function(apiToken){
 			get: function( name, cb ) {
 				openCorporatesGet( 'corporate_groupings/'+name, cb)
 			},
-			search: function( query, query, cb ) {
+			search: function( searchTerm, query, cb ) {
+				if ( typeof query === 'function' ) {
+					var cb = query
+					var query = {}
+				}
+				query.q = searchTerm // 'q' is OpenCorporates for search term
 				openCorporatesGet( 'corporate_groupings/search', query, cb)
 			}
 		}
