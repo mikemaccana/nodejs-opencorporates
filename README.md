@@ -170,7 +170,7 @@ Get more available data for a company.
  - `page` e.g. results page. Default is 1
 
 ```js
-corp.companies.filings( 'C3268102', console.log )
+openCorporates.companies.filings( 'C3268102', console.log )
 ```
 
 ## openCorporates.officers
@@ -180,7 +180,7 @@ corp.companies.filings( 'C3268102', console.log )
 Get an officer by ID.
 
 ```js
-corp.officers.get( '21200360', console.log )
+openCorporates.officers.get( '21200360', console.log )
 ```
 
 
@@ -194,12 +194,12 @@ Search officers.
 
 
 ```js
-corp.officers.search( 'bart simpson', callback )
+openCorporates.officers.search( 'bart simpson', callback )
 ```
 
 ## openCorporates.corporateGroupings
 
-From [OpenCorporates Corp[orate Grouping description:]](http://blog.opencorporates.com/2011/06/01/introducing-corporategroupings-where-fuzzy-concepts-meet-legal-entities/)
+From [OpenCorporates Corporate Grouping description:](http://blog.opencorporates.com/2011/06/01/introducing-corporategroupings-where-fuzzy-concepts-meet-legal-entities/)
 
 
 > "A CorporateGrouping is a user-curated collection of companies that belong to some human-understand concept of a corporation (which maps to the Wikipedia article about that corporation)."
@@ -212,14 +212,14 @@ From [OpenCorporates Corp[orate Grouping description:]](http://blog.opencorporat
 Get extended data about a corporate grouping, by its name.
 
 ```js
-corp.corporateGroupings.get( 'bp', console.log )
+openCorporates.corporateGroupings.get( 'bp', console.log )
 ```
 
 
 ### openCorporates.corporateGroupings.search ( query, [filters], callback )
 
 ```js
-corp.corporateGroupings.search( 'bp', console.log )
+openCorporates.corporateGroupings.search( 'bp', console.log )
 ```
 
 - `per_page` e.g. number of results, max. 100. Default is 30 results per page
