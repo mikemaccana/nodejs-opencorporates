@@ -1,21 +1,22 @@
 {
   "author": {
-    "name": "Franklin van de Meent",
-    "email": "fr@nkl.in",
-    "url": "http://frankl.in"
+    "name": "Mike MacCama",
+    "email": "mike.maccana@gmail.com",
+    "url": "http://mikemaccana.com"
   },
   "name": "opencorporates",
-  "description": "Unofficial module for OpenCorporates API.",
-  "version": "1.0.0",
+  "description": "The OpenCorporates API.",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/fvdm/nodejs-opencorporates.git"
+    "url": "git://github.com/mikemaccana/opencorporates.git"
   },
   "bugs": {
-    "url": "https://github.com/fvdm/nodejs-opencorporates/issues"
+    "url": "https://github.com/mikemaccana/opencorporates/issues"
   },
-  "main": "opencorporates.js",
+  "main": "index.js",
   "dependencies": {
+    "camelify-recursive": "^1.0.0",
     "superagent": "^1.2.0"
   },
   "devDependencies": {},
@@ -30,7 +31,6 @@
     "government"
   ],
   "license": {
-    "type": "Public Domain",
-    "url": "https://github.com/fvdm/nodejs-opencorporates/raw/master/LICENSE"
+    "type": "MIT"
   }
 }

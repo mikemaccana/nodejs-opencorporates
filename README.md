@@ -1,6 +1,6 @@
 # opencorporates
 
-A node.js module for the OpenCorporates API.
+The OpenCorporates API.
 
 [API documentation](http://api.opencorporates.com/documentation/REST-API-introduction)
 
@@ -21,6 +21,8 @@ If you do not have an API key, you may omit it, but will have a lower rate limit
 ```js
 var openCorporates = require('opencorporates')()
 ```
+
+API results are converted to camelCase so you can use the keys directly in your app.
 
 ## openCorporates.companies
 
@@ -205,8 +207,6 @@ From [OpenCorporates Corporate Grouping description:](http://blog.opencorporates
 > "A CorporateGrouping is a user-curated collection of companies that belong to some human-understand concept of a corporation (which maps to the Wikipedia article about that corporation)."
 
 
-
-
 ### openCorporates.corporateGroupings.get ( name, callback )
 
 Get extended data about a corporate grouping, by its name.
@@ -225,5 +225,8 @@ openCorporates.corporateGroupings.search( 'bp', console.log )
 - `per_page` e.g. number of results, max. 100. Default is 30 results per page
 - `page` e.g. results page. Default is 1
 
+## Credits
 
+This module was forked from [Franklin van de Meent](http://frankl.in)'s original public domain OpenCorporates code.
 
+The fork was created and is maintained by [Mike MacCana](http://mikemaccana.com)

@@ -1,5 +1,5 @@
 var superagent = require('superagent'),
-	camelify = require('camelify');
+	camelify = require('camelify-recursive');
 
 var log = console.log.bind(log);
 
