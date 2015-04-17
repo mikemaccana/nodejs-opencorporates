@@ -1,6 +1,6 @@
 # opencorporates
 
-The OpenCorporates API.
+The [OpenCorporates](http://opencorporates.com) API.
 
 [API documentation](http://api.opencorporates.com/documentation/REST-API-introduction)
 
