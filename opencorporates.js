@@ -1,16 +1,5 @@
-/*
-Name:         opencorporates.js
-Description:  Unofficial Node.js module for the OpenCorporates.com API
-Author:       Franklin van de Meent <https://frankl.in/>
-Source:       https://github.com/fvdm/nodejs-opencorporates
-Feedback:     https://github.com/fvdm/nodejs-opencorporates/issues
-License:      Public Domain (Unlicense) - see LICENSE file
-*/
-
 var http = require('http')
 var querystring = require('querystring');
-
-
 
 var openCorpRequest = function( path, fields, callback ) {
 	if( typeof fields === 'function' ) {
