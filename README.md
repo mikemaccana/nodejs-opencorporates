@@ -22,126 +22,133 @@ If you do not have an API key, you may omit it, but will have a lower rate limit
 var openCorporates = require('opencorporates')()
 ```
 
-openCorporates.companies.search( 'github', console.log )
-```
+## openCorporates.companies
 
-This should return an array with objects, like this:
+### openCorporates.companies.get(jurisdictionCode, companyID, cb)
 
-```js
-[ { name: 'GITHUB, INC.',
-	company_number: 'C3268102',
-	jurisdiction_code: 'us_ca',
-	incorporation_date: '2009-12-31',
-	dissolution_date: null,
-	company_type: 'Domestic Stock',
-	registry_url: 'https://businessfilings.sos.ca.gov/frmDetail.asp?CorpID=03268102',
-	branch_status: null,
-	inactive: false,
-	current_status: 'Active',
-	created_at: '2011-09-17T15:33:31+01:00',
-	updated_at: '2013-04-30T09:24:30+01:00',
-	retrieved_at: '2012-04-03T07:19:16+01:00',
-	opencorporates_url: 'http://opencorporates.com/companies/us_ca/C3268102',
-	previous_names: null,
-	source: { publisher: 'California Secretary of State',
-		url: 'http://kepler.sos.ca.gov/',
-		retrieved_at: '2012-04-03T07:19:16+01:00' } } ]
-```
-
-
-Callback
---------
-
-The last parameter of each method must be the *callback function*. This receives two or three parameters, depending on the kind of data. 'Get' methods (i.e. companies.get) give the callback two parameters, 'list' methods give an extra parameter with *meta* data such as total items.
-
-#### Expect only one result
+Get a single company. Example:
 
 ```js
-openCorporates.companies.get( 'us_ca', 'C3268102', function( error, data ) {
-	if( error ) {
-		console.log( error )
-	} else {
-		console.log( data.name +' incorporated on '+ data.incorporation_date )
-	}
+openCorporates.companies.get('us_ca', 'C3268102', function(err, res){
+	console.log(JSON.stringify(res, null, 2))
 })
 ```
 
-#### Expect list array
+```js
+	{
+	  "results": {
+	    "company": {
+	      "name": "GITHUB, INC.",
+	      "inactive": false,
+	      "source": {
+	        "publisher": "California Secretary of State",
+	        "url": "http://kepler.sos.ca.gov/",
+	        "retrievedAt": "2012-04-03T07:19:16+00:00"
+	      },
+	      "data": null,
+	      "filings": [],
+	      "officers": [],
+	      "companyNumber": "C3268102",
+	      "jurisdictionCode": "us_ca",
+	      "incorporationDate": "2009-12-31",
+	      "dissolutionDate": null,
+	      "companyType": "Domestic Stock",
+	      "registryUrl": "https://businessfilings.sos.ca.gov/frmDetail.asp?CorpID=03268102",
+	      "branchStatus": null,
+	      "currentStatus": "Active",
+	      "createdAt": "2011-09-17T15:33:31+00:00",
+	      "updatedAt": "2013-10-27T06:27:24+00:00",
+	      "retrievedAt": "2012-04-03T07:19:16+00:00",
+	      "opencorporatesUrl": "https://opencorporates.com/companies/us_ca/C3268102",
+	      "previousNames": [],
+	      "agentName": "BRANDEE MURPHY",
+	      "agentAddress": "582 MARKET STREET STE 1700, SAN FRANCISCO, CA 94104",
+	      "registeredAddressInFull": "548 4TH STREET, SAN FRANCISCO, CA 94107",
+	      "registeredAddress": {
+	        "locality": null,
+	        "region": null,
+	        "country": "United States",
+	        "streetAddress": "548 4TH STREET, SAN FRANCISCO, CA 94107",
+	        "postalCode": null
+	      },
+	      "corporateGroupings": [],
+	      "industryCodes": [],
+	      "financialSummary": null,
+	      "homeCompany": null,
+	      "controllingEntity": null
+	    }
+	  },
+	  "apiVersion": "0.3.2"
+	}
+```
+
+### openCorporates.companies.search(searchTerm, [filters], cb)
+
+Search a company.
+
+`filters` is optional, and can be:
+
+ - `jurisdiction_code` e.g. `us_ca`, `nl`. Default is [none/worldwide]
+ - `order` e.g. `score`. Default is alphabetic
+ - `per_page` e.g. number of results, max. 100. Default is 30 results per page
+ - `page` e.g. results page. Default is 1
 
 ```js
-openCorporates.companies.search( 'github', function( error, data, meta ) {
-	if( error ) {
-		console.log( error )
-	} else if( meta.total_count >= 1 ) {
-		console.log( 'Total results: '+ meta.total_count )
-		for ( var i=0; i < data; i++; ) {
-			console.log( data[i].name )
-		}
-	} else {
-		console.log( 'no results' )
-	}
+openCorporates.companies.search( 'github', function(err, res){
+	console.log(JSON.stringify(res, null, 2))
 })
 ```
 
-### meta data
-
-The meta parameter is an object with numeric information about the `data` array.
+This should return:
 
 ```js
-{ page: 1,
-  per_page: 30,
-  total_pages: 2,
-  total_count: 42 }
+{
+  "results": {
+    "companies": [
+      {
+        "company": {
+          "name": "GITHUB, INC.",
+          "inactive": false,
+          "source": {
+            "publisher": "California Secretary of State",
+            "url": "http://kepler.sos.ca.gov/",
+            "retrievedAt": "2012-04-03T07:19:16+00:00"
+          },
+          "companyNumber": "C3268102",
+          "jurisdictionCode": "us_ca",
+          "incorporationDate": "2009-12-31",
+          "dissolutionDate": null,
+          "companyType": "Domestic Stock",
+          "registryUrl": "https://businessfilings.sos.ca.gov/frmDetail.asp?CorpID=03268102",
+          "branchStatus": null,
+          "currentStatus": "Active",
+          "createdAt": "2011-09-17T15:33:31+00:00",
+          "updatedAt": "2013-10-27T06:27:24+00:00",
+          "retrievedAt": "2012-04-03T07:19:16+00:00",
+          "opencorporatesUrl": "https://opencorporates.com/companies/us_ca/C3268102",
+          "previousNames": [],
+          "registeredAddressInFull": "548 4TH STREET, SAN FRANCISCO, CA 94107"
+        }
+      },
+      ...many more companies omitted....
+    ],
+    "page": 1,
+    "perPage": 30,
+    "totalPages": 1,
+    "totalCount": 9
+  },
+  "apiVersion": "0.3.2"
+}
 ```
 
-
-Companies
----------
-
-### companies.get ( jurisdiction, id, callback )
-
-Get one specific company.
-
-	jurisdiction   required   jurisdiction code, i.e. `us_ca` or `nl`
-	id             required   company ID
-	callback       required   function( error, data )
-
-
-```js
-corp.companies.get( 'us_ca', 'C3268102', console.log )
-```
-
-
-### companies.search ( query, [vars], callback )
-
-Find companies matching `query` worldwide or filtered.
-
-	query      required   keyword(s)
-	vars       option     filters, see below
-	callback   required   function( error, data, meta )
-
-```js
-corp.companies.search( 'github', {order: 'score'}, console.log )
-```
-
-#### vars
-
-	filter name         description                   default
-
-	jurisdiction_code   `us_ca`, `nl`                 [none/worldwide]
-	order               `score`                       alphabetic
-	per_page            number of results, max. 100   30
-	page                results page                  1
-
-
-### companies.filings ( jurisdiction, id, [vars], callback )
+### openCorporates.companies.filings(jurisdiction, id, [filters], callback)
 
 Get available filings for a company.
 
-	jurisdiction   required   `us_ca`, `nl`
-	id             required   company ID
-	vars           option     filters
-	callback       required   function( error, data, meta )
+`filters` is optional, and can be:
+
+ - `per_page` e.g. number of results, max. 100. Default is 30 results per page
+ - `page` e.g. results page. Default is 1
 
 ```js
 corp.companies.filings( 'C3268102', console.log )
@@ -155,31 +162,22 @@ corp.companies.filings( 'C3268102', console.log )
 	page                results page                  1
 
 
-### companies.data ( jurisdiction, id, [vars], callback )
+### openCorporates.companies.data(jurisdiction, id, [filters], callback)
 
 Get more available data for a company.
 
-	jurisdiction   required   `us_ca`, `nl`
-	id             required   company ID
-	vars           option     filters
-	callback       required   function( error, data, meta )
+`filters` is optional, and can be:
+
+ - `per_page` e.g. number of results, max. 100. Default is 30 results per page
+ - `page` e.g. results page. Default is 1
 
 ```js
 corp.companies.filings( 'C3268102', console.log )
 ```
 
-#### vars
+## openCorporates.officers
 
-	filter name         description                   default
-
-	per_page            number of results, max. 100   30
-	page                results page                  1
-
-
-Officers
---------
-
-### officers.get ( id, callback )
+### openCorporates.officers.get( id, callback)
 
 Get an officer by ID.
 
@@ -188,32 +186,30 @@ corp.officers.get( '21200360', console.log )
 ```
 
 
-### officers.search ( query, [vars], callback )
+### openCorporates.officers.search( query, [filters], callback )
 
 Search officers.
+
+- `jurisdiction_code` e.g. `us_ca`, `nl`. Default is [none/worldwide]
+- `per_page` e.g. number of results, max. 100. Default is 30 results per page
+- `page` e.g. results page. Default is 1
+
 
 ```js
 corp.officers.search( 'bart simpson', callback )
 ```
 
-#### vars
+## openCorporates.corporateGroupings
 
-	filter name         description                   default
-
-	jurisdiction_code   `us_ca`, `nl`                 [none/worldwide]
-	per_page            number of results, max. 100   30
-	page                results page                  1
+From [OpenCorporates Corp[orate Grouping description:]](http://blog.opencorporates.com/2011/06/01/introducing-corporategroupings-where-fuzzy-concepts-meet-legal-entities/)
 
 
-Corporate groupings
--------------------
-
-"A CorporateGrouping is a user-curated collection of companies that belong to some human-understand concept of a corporation (which maps to the Wikipedia article about that corporation)."
-
-<http://blog.opencorporates.com/2011/06/01/introducing-corporategroupings-where-fuzzy-concepts-meet-legal-entities/>
+> "A CorporateGrouping is a user-curated collection of companies that belong to some human-understand concept of a corporation (which maps to the Wikipedia article about that corporation)."
 
 
-### corporateGroupings.get ( name, callback )
+
+
+### openCorporates.corporateGroupings.get ( name, callback )
 
 Get extended data about a corporate grouping, by its name.
 
@@ -221,58 +217,15 @@ Get extended data about a corporate grouping, by its name.
 corp.corporateGroupings.get( 'bp', console.log )
 ```
 
-#### example (trimmed)
 
-```js
-{ name: 'bp',
-  wikipedia_id: 'BP',
-  companies_count: 8,
-  created_at: '2011-05-30T17:33:45+01:00',
-  updated_at: '2013-10-14T05:46:20+01:00',
-  curators:
-	[ { name: 'Chris Taggart',
-		opencorporates_url: 'http://opencorporates.com/users/1' },
-	{ name: 'inanimatt',
-		opencorporates_url: 'http://opencorporates.com/users/1374' } ],
-  memberships:
-	[ { source:
-		  { publisher: 'Chris Taggart',
-		  retrieved_at: '2011-06-01T14:17:27+01:00',
-		  url: 'http://opencorporates.com/users/1',
-		  source_type: 'user' },
-		company:
-		  { name: 'BP P.L.C.',
-		  jurisdiction_code: 'gb',
-		  company_number: '00102498',
-		  opencorporates_url: 'http://opencorporates.com/companies/gb/00102498',
-		  inactive: false } } ] }
-```
-
-
-### corporateGroupings.search ( query, [vars], callback )
+### openCorporates.corporateGroupings.search ( query, [filters], callback )
 
 ```js
 corp.corporateGroupings.search( 'bp', console.log )
 ```
 
-#### vars
-
-	filter name         description                   default
-
-	per_page            number of results, max. 100   30
-	page                results page                  1
-
-#### example
-
-```
-[ { name: 'bp',
-	created_at: '2011-05-30T17:33:45+01:00',
-	updated_at: '2013-10-14T05:46:20+01:00',
-	opencorporates_url: 'http://opencorporates.com/corporate_groupings/bp',
-	wikipedia_id: 'BP' } ]
-```
-
-
+- `per_page` e.g. number of results, max. 100. Default is 30 results per page
+- `page` e.g. results page. Default is 1
 
 
 
