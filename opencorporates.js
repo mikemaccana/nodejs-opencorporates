@@ -79,8 +79,8 @@ module.exports = function(apiToken){
 
 	return {
 		companies: {
-			get: function( juris, id, callback ) {
-				openCorpRequest( 'companies/'+ juris +'/'+ id, function( err, res ) {
+			get: function( jurisdiction, id, callback ) {
+				openCorpRequest( 'companies/'+ jurisdiction +'/'+ id, function( err, res ) {
 					callback( err, (res && res.company) ? res.company : null )
 				})
 			},
@@ -94,23 +94,23 @@ module.exports = function(apiToken){
 					callback( err, cleanResponse( res.companies, 'company' ), buildMetaData( res ) )
 				})
 			},
-			filings: function( juris, id, vars, callback ) {
+			filings: function( jurisdiction, id, vars, callback ) {
 				if ( typeof vars === 'function' ) {
 					callback = vars
 					vars = false
 				}
 
-				openCorpRequest( 'companies/'+ juris +'/'+ id +'/filings', function( err, res ) {
+				openCorpRequest( 'companies/'+ jurisdiction +'/'+ id +'/filings', function( err, res ) {
 					callback( err, cleanResponse( res.filings, 'filing' ), buildMetaData( res ) )
 				})
 			},
-			data: function( juris, id, vars, callback ) {
+			data: function( jurisdiction, id, vars, callback ) {
 				if ( typeof vars === 'function' ) {
 					callback = vars
 					vars = false
 				}
 
-				openCorpRequest( 'companies/'+ juris +'/'+ id +'/data', vars, function( err, res ) {
+				openCorpRequest( 'companies/'+ jurisdiction +'/'+ id +'/data', vars, function( err, res ) {
 					callback( err, cleanResponse( res.data, 'datum' ), buildMetaData( res ) )
 				})
 			}
