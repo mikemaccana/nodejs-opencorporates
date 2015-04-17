@@ -43,8 +43,7 @@ module.exports = function(apiToken){
 		.end(function(err, res) {
 			// OpenCorporates has some extra info with their errors
 			err = OPEN_CORPORATES_ERRORS[res.status] || err
-			// cb( err, camelify(res.body) )
-			cb( err, res.body )
+			cb( err, camelify(res.body) )
 		})
 	}
 
