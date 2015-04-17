@@ -3,7 +3,9 @@ var superagent = require('superagent'),
 
 var log = console.log.bind(log);
 
-var ENDPOINT = 'https://api.opencorporates.com/v0.2/'
+var API_VERSION = '0.3.2'
+
+var ENDPOINT = 'https://api.opencorporates.com/v'+API_VERSION+'/'
 
 var USER_AGENT = 'opencorporates.js (https://github.com/fvdm/nodejs-opencorporates)'
 
