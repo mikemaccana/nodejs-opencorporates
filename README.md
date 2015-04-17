@@ -154,12 +154,10 @@ Get available filings for a company.
 corp.companies.filings( 'C3268102', console.log )
 ```
 
-#### vars
+`filters` is optional, and can be:
 
-	filter name         description                   default
-
-	per_page            number of results, max. 100   30
-	page                results page                  1
+ - `per_page` e.g. number of results, max. 100. Default is 30 results per page
+ - `page` e.g. results page. Default is 1
 
 
 ### openCorporates.companies.data(jurisdiction, id, [filters], callback)
