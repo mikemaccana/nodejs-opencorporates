@@ -12,7 +12,6 @@ Stable: `npm install opencorporates`
 
 Master: `npm install fvdm/nodejs-opencorporates`
 
-
 Usage
 -----
 
@@ -20,12 +19,11 @@ Usage
 var openCorporates = require('opencorporates')('YOUR_API_TOKEN')
 ```
 
-If you do not have an API key, you may omit it, but iwll have a lower rate limit:
+If you do not have an API key, you may omit it, but will have a lower rate limit:
 
 ```js
 var openCorporates = require('opencorporates')()
 ```
-
 
 openCorporates.companies.search( 'github', console.log )
 ```
@@ -79,7 +77,7 @@ openCorporates.companies.search( 'github', function( error, data, meta ) {
 		console.log( error )
 	} else if( meta.total_count >= 1 ) {
 		console.log( 'Total results: '+ meta.total_count )
-		for( var i=0; i<data; i++ ) {
+		for ( var i=0; i < data; i++; ) {
 			console.log( data[i].name )
 		}
 	} else {
