@@ -1,19 +1,16 @@
-nodejs-opencorporates
+opencorporates
 =====================
 
-Unofficial Node.js module for the OpenCorporates API.
+Unofficial node.js module for the OpenCorporates API.
 
 [API documentation](http://api.opencorporates.com/documentation/REST-API-introduction)
-
-[Node.js](http://nodejs.org/)
-
 
 Installation
 ------------
 
 Stable: `npm install opencorporates`
 
-Source: `npm install git+https://github.com/fvdm/nodejs-opencorporates`
+Master: `npm install fvdm/nodejs-opencorporates`
 
 
 Configuration
@@ -24,7 +21,7 @@ These settings affect all method calls.
 	api_token   Your API key if you have one.
 
 ```js
-corp.api_token = 'abc123'
+corp.api_token = 'YOUR_API_TOKEN'
 ```
 
 
