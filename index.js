@@ -42,7 +42,7 @@ module.exports = function(apiToken){
 	}
 
 	function buildMetaData( res ) {
-		var res = res || {}
+		res = res || {}
 		return {
 			page: res.page || 0,
 			perPage: res.per_page || 0,
