@@ -12,7 +12,12 @@ This module includes all the normal features of the [OpenCorporates REST API](ht
 
 If you're unsure of how anything works, check the unit tests, which have examples of all the API calls.
 
+## Version 2 changes
 
+If you're upgrading from version 1, the new module has the following changes:
+
+ - The module now exports a single function which takes the apiKey as an argument.
+ - Results, and all function parameters are now in camelCase.
 
 ## Installation
 
@@ -123,9 +128,9 @@ Search a company.
 
 `filters` is optional, and can be:
 
- - `jurisdiction_code` e.g. `us_ca`, `nl`. Default is [none/worldwide]
+ - `jurisdictionCode` e.g. `us_ca`, `nl`. Default is [none/worldwide]
  - `order` e.g. `score`. Default is alphabetic
- - `per_page` e.g. number of results, max. 100. Default is 30 results per page
+ - `perPage` e.g. number of results, max. 100. Default is 30 results per page
  - `page` e.g. results page. Default is 1
 
 ```js
@@ -173,7 +178,7 @@ Get available filings for a company.
 
 `filters` is optional, and can be:
 
- - `per_page` e.g. number of results, max. 100. Default is 30 results per page
+ - `perPage` e.g. number of results, max. 100. Default is 30 results per page
  - `page` e.g. results page. Default is 1
 
 ```js
@@ -182,7 +187,7 @@ corp.companies.filings( 'C3268102', console.log )
 
 `filters` is optional, and can be:
 
- - `per_page` e.g. number of results, max. 100. Default is 30 results per page
+ - `perPage` e.g. number of results, max. 100. Default is 30 results per page
  - `page` e.g. results page. Default is 1
 
 
@@ -192,7 +197,7 @@ Get more available data for a company.
 
 `filters` is optional, and can be:
 
- - `per_page` e.g. number of results, max. 100. Default is 30 results per page
+ - `perPage` e.g. number of results, max. 100. Default is 30 results per page
  - `page` e.g. results page. Default is 1
 
 ```js
@@ -214,8 +219,8 @@ openCorporates.officers.get( '21200360', console.log )
 
 Search officers.
 
-- `jurisdiction_code` e.g. `us_ca`, `nl`. Default is [none/worldwide]
-- `per_page` e.g. number of results, max. 100. Default is 30 results per page
+- `jurisdictionCode` e.g. `us_ca`, `nl`. Default is [none/worldwide]
+- `perPage` e.g. number of results, max. 100. Default is 30 results per page
 - `page` e.g. results page. Default is 1
 
 
@@ -246,7 +251,7 @@ openCorporates.corporateGroupings.get( 'bp', console.log )
 openCorporates.corporateGroupings.search( 'bp', console.log )
 ```
 
-- `per_page` e.g. number of results, max. 100. Default is 30 results per page
+- `perPage` e.g. number of results, max. 100. Default is 30 results per page
 - `page` e.g. results page. Default is 1
 
 ## Credits

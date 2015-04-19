@@ -1,4 +1,5 @@
 var superagent = require('superagent'),
+	changeCase = require('change-case'),
 	camelify = require('camelify-recursive');
 
 var log = console.log.bind(log);
@@ -50,13 +51,17 @@ module.exports = function(apiToken){
 		}
 	}
 
-	var openCorporatesGet = function(path, query, cb ) {
-		if( typeof query === 'function' ) {
-			cb = query
-			query = {}
+	var openCorporatesGet = function(path, rawQuery, cb ) {
+		if( typeof rawQuery === 'function' ) {
+			cb = rawQuery
+			rawQuery = {}
 		}
 
-		query = query || {}
+		// Convert JS style camelCase query options to snake_case
+		var query = rawQuery || {}
+		Object.keys(rawQuery).forEach(function(keyName){
+			query[changeCase.snakeCase(keyName)] = rawQuery[keyName]
+		})
 
 		if ( apiToken ) {
 			query.api_token = apiToken;
