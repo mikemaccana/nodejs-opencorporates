@@ -49,56 +49,56 @@ module.exports = function(apiToken){
 
 	return {
 		companies: {
-			get: function( jurisdiction, id, cb ) {
+			get: function(jurisdiction, id, cb ) {
 				openCorporatesGet( 'companies/'+jurisdiction+'/'+id, cb)
 			},
-			search: function( searchTerm, query, cb ) {
-				if ( typeof query === 'function' ) {
-					var cb = query
-					var query = {}
+			search: function(searchTerm, options, cb ) {
+				if ( typeof options === 'function' ) {
+					var cb = options
+					var options = {}
 				}
-				query.q = searchTerm // 'q' is OpenCorporates for search term
-				openCorporatesGet( 'companies/search', query, cb)
+				options.q = searchTerm // 'q' is OpenCorporates for search term
+				openCorporatesGet( 'companies/search', options, cb)
 			},
-			filings: function( jurisdiction, id, query, cb ) {
-				if ( typeof query === 'function' ) {
-					var cb = query
-					var query = {}
+			filings: function(jurisdiction, id, options, cb ) {
+				if ( typeof options === 'function' ) {
+					var cb = options
+					var options = {}
 				}
 				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/filings', cb)
 			},
-			data: function( jurisdiction, id, query, cb ) {
-				if ( typeof query === 'function' ) {
-					var cb = query
-					var query = {}
+			data: function(jurisdiction, id, options, cb ) {
+				if ( typeof options === 'function' ) {
+					var cb = options
+					var options = {}
 				}
-				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/data', query, cb)
+				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/data', options, cb)
 			}
 		},
 		officers: {
-			get: function( id, cb ) {
+			get: function(id, cb ) {
 				openCorporatesGet( 'officers/'+id, cb)
 			},
-			search: function( searchTerm, query, cb ) {
-				if ( typeof query === 'function' ) {
-					var cb = query
-					var query = {}
+			search: function(searchTerm, options, cb ) {
+				if ( typeof options === 'function' ) {
+					var cb = options
+					var options = {}
 				}
-				query.q = searchTerm // 'q' is OpenCorporates for search term
-				openCorporatesGet( 'officers/search', query, cb)
+				options.q = searchTerm // 'q' is OpenCorporates for search term
+				openCorporatesGet( 'officers/search', options, cb)
 			}
 		},
 		corporateGroupings: {
-			get: function( name, cb ) {
+			get: function(name, cb ) {
 				openCorporatesGet( 'corporate_groupings/'+name, cb)
 			},
-			search: function( searchTerm, query, cb ) {
-				if ( typeof query === 'function' ) {
-					var cb = query
-					var query = {}
+			search: function(searchTerm, options, cb ) {
+				if ( typeof options === 'function' ) {
+					var cb = options
+					var options = {}
 				}
-				query.q = searchTerm // 'q' is OpenCorporates for search term
-				openCorporatesGet( 'corporate_groupings/search', query, cb)
+				options.q = searchTerm // 'q' is OpenCorporates for search term
+				openCorporatesGet( 'corporate_groupings/search', options, cb)
 			}
 		}
 	}
