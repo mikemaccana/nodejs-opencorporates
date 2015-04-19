@@ -7,7 +7,7 @@ var API_VERSION = '0.3.2'
 
 var ENDPOINT = 'https://api.opencorporates.com/v'+API_VERSION+'/'
 
-var USER_AGENT = 'opencorporates.js (https://github.com/fvdm/nodejs-opencorporates)'
+var USER_AGENT = 'opencorporates.js (https://github.com/mikemaccana/opencorporates)'
 
 var OPEN_CORPORATES_ERRORS = {
 	304: 'Not Modified: There was no new data to return.',
@@ -22,7 +22,34 @@ var OPEN_CORPORATES_ERRORS = {
 }
 
 module.exports = function(apiToken){
-	apiToken = apiToken || null
+	apiToken = apiToken || null;
+
+	// OK so OpenCorporates API currently puts its interesting stuff as
+	// eg, data.bananas = [{'banana': {bananaDetails}}, {'banana': {actual banana object}}]
+	// This is weird, and makes data.bananas.forEach(function(banana){...}) not work.
+	// Instead, you'd use data.bananas.forEach(function(banana){ ...}) then work with 'banana.banana' which is just weird.
+	// Let's clean it up so:
+	// data.bananas = [banana, banana]
+	var getCleanArray = function(categoryResults, itemName ) {
+		var cleanArray = [];
+		if ( Array.isArray(categoryResults) ) {
+			categoryResults.forEach(function(item, index){
+				cleanArray.push( categoryResults[index][itemName] )
+			})
+		}
+		// log('going to return',cleanArray.length > 0 ? cleanArray : null )
+		return cleanArray.length > 0 ? cleanArray : null
+	}
+
+	function buildMetaData( res ) {
+		var res = res || {}
+		return {
+			page: res.page || 0,
+			perPage: res.per_page || 0,
+			totalPages: res.total_pages || 0,
+			totalCount: res.total_count || 0
+		}
+	}
 
 	var openCorporatesGet = function( path, query, cb ) {
 		if( typeof query === 'function' ) {
@@ -50,55 +77,82 @@ module.exports = function(apiToken){
 	return {
 		companies: {
 			get: function(jurisdiction, id, cb ) {
-				openCorporatesGet( 'companies/'+jurisdiction+'/'+id, cb)
+				openCorporatesGet( 'companies/'+jurisdiction+'/'+id, function( err, res ) {
+					cb(err, res.company || null )
+				})
 			},
 			search: function(searchTerm, options, cb ) {
 				if ( typeof options === 'function' ) {
-					var cb = options
-					var options = {}
+					cb = options
+					options = {}
 				}
 				options.q = searchTerm // 'q' is OpenCorporates for search term
-				openCorporatesGet( 'companies/search', options, cb)
+				openCorporatesGet( 'companies/search', options, function( err, res ) {
+					cb( err, getCleanArray(res.results.companies, 'company'), buildMetaData(res) )
+				})
 			},
 			filings: function(jurisdiction, id, options, cb ) {
 				if ( typeof options === 'function' ) {
-					var cb = options
-					var options = {}
+					cb = options
+					options = {}
 				}
-				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/filings', cb)
+				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/filings', function( err, res ) {
+					cb( err, getCleanArray(res.results.filings, 'filing'), buildMetaData(res) )
+				})
 			},
 			data: function(jurisdiction, id, options, cb ) {
 				if ( typeof options === 'function' ) {
-					var cb = options
-					var options = {}
+					cb = options
+					options = {}
 				}
-				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/data', options, cb)
+				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/data', options, function( err, res ) {
+					cb( err, getCleanArray(res.results.data, 'datum'), buildMetaData(res) )
+				})
 			}
 		},
 		officers: {
 			get: function(id, cb ) {
-				openCorporatesGet( 'officers/'+id, cb)
+				openCorporatesGet( 'officers/'+id, function( err, res ) {
+					cb( err, res.officer || null )
+				})
 			},
 			search: function(searchTerm, options, cb ) {
 				if ( typeof options === 'function' ) {
-					var cb = options
-					var options = {}
+					cb = options
+					options = {}
 				}
 				options.q = searchTerm // 'q' is OpenCorporates for search term
-				openCorporatesGet( 'officers/search', options, cb)
+				openCorporatesGet( 'officers/search', options, function( err, res ) {
+					cb( err, getCleanArray(res.results.officers, 'officer'), buildMetaData(res) )
+				})
 			}
 		},
 		corporateGroupings: {
 			get: function(name, cb ) {
-				openCorporatesGet( 'corporate_groupings/'+name, cb)
+				openCorporatesGet( 'corporate_groupings/'+name, function( err, res ) {
+
+					// log('XXXX', err, res)
+					var corp = res.results.corporateGrouping;
+
+					if ( corp && corp.curators ) {
+						corp.curators = getCleanArray( corp.curators, 'user' )
+					}
+
+					if ( corp && corp.memberships ) {
+						corp.memberships = getCleanArray( corp.memberships, 'membership' )
+					}
+					cb( err, corp )
+				})
 			},
 			search: function(searchTerm, options, cb ) {
 				if ( typeof options === 'function' ) {
-					var cb = options
-					var options = {}
+					cb = options
+					options = {}
 				}
 				options.q = searchTerm // 'q' is OpenCorporates for search term
-				openCorporatesGet( 'corporate_groupings/search', options, cb)
+				openCorporatesGet( 'corporate_groupings/search', options, function( err, res ) {
+					cb( err, getCleanArray(res.results.corporateGroupings, 'corporateGrouping' ), buildMetaData( res ) )
+				})
 			}
 		}
 	}
