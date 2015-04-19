@@ -182,7 +182,7 @@ Get available filings for a company.
  - `page` e.g. results page. Default is 1
 
 ```js
-corp.companies.filings( 'C3268102', console.log )
+openCorporates.companies.filings( 'C3268102', console.log )
 ```
 
 `filters` is optional, and can be:
