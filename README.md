@@ -2,7 +2,17 @@
 
 The [OpenCorporates](http://opencorporates.com) API.
 
-[API documentation](http://api.opencorporates.com/documentation/REST-API-introduction)
+## Features
+
+This module includes all the normal features of the [OpenCorporates REST API](http://api.opencorporates.com/documentation/REST-API-introduction) and adds the following:
+
+ - camelCase results, so you can use the keys in your own JavaScript without having to convert thems
+ - Results and metadata are returned seperately
+ - Clean arrays, eg, OpenCorporates would normally return `bananas = [{'banana': {actual banana object}}, {'banana': {actual banana object}}` whereas this module will return `bananas = [{actual banana object}, {actual banana object}]`. So bananas.forEach(function(banana){}) works properly.
+
+If you're unsure of how anything works, check the unit tests, which have examples of all the API calls.
+
+
 
 ## Installation
 
