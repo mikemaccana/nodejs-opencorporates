@@ -25,11 +25,10 @@ module.exports = function(apiToken){
 	apiToken = apiToken || null;
 
 	// OK so OpenCorporates API currently puts its interesting stuff as
-	// eg, data.bananas = [{'banana': {bananaDetails}}, {'banana': {actual banana object}}]
+	// eg, results.bananas = [{'banana': {actual banana object}}, {'banana': {actual banana object}}]
 	// This is weird, and makes data.bananas.forEach(function(banana){...}) not work.
 	// Instead, you'd use data.bananas.forEach(function(banana){ ...}) then work with 'banana.banana' which is just weird.
-	// Let's clean it up so:
-	// data.bananas = [banana, banana]
+	// Let's clean it up so: we just return [banana, banana]
 	var getCleanArray = function(categoryResults, itemName ) {
 		var cleanArray = [];
 		if ( Array.isArray(categoryResults) ) {
@@ -51,7 +50,7 @@ module.exports = function(apiToken){
 		}
 	}
 
-	var openCorporatesGet = function( path, query, cb ) {
+	var openCorporatesGet = function(path, query, cb ) {
 		if( typeof query === 'function' ) {
 			cb = query
 			query = {}
@@ -78,7 +77,7 @@ module.exports = function(apiToken){
 		companies: {
 			get: function(jurisdiction, id, cb ) {
 				openCorporatesGet( 'companies/'+jurisdiction+'/'+id, function( err, res ) {
-					cb(err, res.company || null )
+					cb(err, res.results.company || null )
 				})
 			},
 			search: function(searchTerm, options, cb ) {
