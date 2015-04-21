@@ -138,8 +138,16 @@ suite('Companies', function(){
 		})
 	})
 
+	test('Data', function(done){
+		this.timeout(5 * 1000);
+		openCorporates.companies.data('us_ca', 'C3268102', function(err, res, meta){
+			var expected = null
+			assert.deepEqual(res, expected)
+			done()
+		})
+	})
+
 	test('Search in jurisdiction', function(done){
-		// brent at Stormpath: You just need to disable the password reset workflow in the Stormpath admin console (or via the API) and then you can generate the password reset token by hitting the same /passwordResetTokens endpoint (or via the SDK) as always. The response body contains the HREF with the token.
 		this.timeout(5 * 1000);
 		openCorporates.companies.search('github', {countryCode: 'us'}, function(err, res, meta){
 			var expected = [
