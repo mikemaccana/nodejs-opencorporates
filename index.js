@@ -57,10 +57,17 @@ module.exports = function(apiToken){
 			rawQuery = {}
 		}
 
-		// Convert JS style camelCase query options to snake_case
+
+		// Convert JS style into OC API
 		var query = rawQuery || {}
 		Object.keys(rawQuery).forEach(function(keyName){
-			query[changeCase.snakeCase(keyName)] = rawQuery[keyName]
+			var value = rawQuery[keyName]
+			// Convert arrays to pipe separated strings
+			if ( Array.isArray(value) ) {
+				value = value.join('|')
+			}
+			// Convert JS style camelCase query options to snake_case
+			query[changeCase.snakeCase(keyName)] = value
 		})
 
 		if ( apiToken ) {
