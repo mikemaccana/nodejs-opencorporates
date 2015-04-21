@@ -99,6 +99,10 @@ module.exports = function(apiToken){
 				}
 				options.q = searchTerm // 'q' is OpenCorporates for search term
 				openCorporatesGet( 'companies/search', options, function( err, res ) {
+					if ( err ) {
+						cb(err)
+						return
+					}
 					cb( err, getCleanArray(res.results.companies, 'company'), buildMetaData(res) )
 				})
 			},
@@ -108,6 +112,10 @@ module.exports = function(apiToken){
 					options = {}
 				}
 				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/filings', function( err, res ) {
+					if ( err ) {
+						cb(err)
+						return
+					}
 					cb( err, getCleanArray(res.results.filings, 'filing'), buildMetaData(res) )
 				})
 			},
@@ -117,6 +125,10 @@ module.exports = function(apiToken){
 					options = {}
 				}
 				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/data', options, function( err, res ) {
+					if ( err ) {
+						cb(err)
+						return
+					}
 					cb( err, getCleanArray(res.results.data, 'datum'), buildMetaData(res) )
 				})
 			}
@@ -133,7 +145,12 @@ module.exports = function(apiToken){
 					options = {}
 				}
 				options.q = searchTerm // 'q' is OpenCorporates for search term
+
 				openCorporatesGet( 'officers/search', options, function( err, res ) {
+					if ( err ) {
+						cb(err)
+						return
+					}
 					cb( err, getCleanArray(res.results.officers, 'officer'), buildMetaData(res) )
 				})
 			}
@@ -152,6 +169,11 @@ module.exports = function(apiToken){
 					if ( corp && corp.memberships ) {
 						corp.memberships = getCleanArray( corp.memberships, 'membership' )
 					}
+					if ( err ) {
+						cb(err)
+						return
+					}
+
 					cb( err, corp )
 				})
 			},
@@ -162,6 +184,10 @@ module.exports = function(apiToken){
 				}
 				options.q = searchTerm // 'q' is OpenCorporates for search term
 				openCorporatesGet( 'corporate_groupings/search', options, function( err, res ) {
+					if ( err ) {
+						cb(err)
+						return
+					}
 					cb( err, getCleanArray(res.results.corporateGroupings, 'corporateGrouping' ), buildMetaData( res ) )
 				})
 			}
