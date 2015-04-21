@@ -128,7 +128,7 @@ Search a company.
 
 `filters` is optional, and can be:
 
- - `jurisdictionCode` e.g. `us_ca`, `nl`. Default is [none/worldwide]
+ - `jurisdictionCode` e.g. `us_ca`, `nl` see the [full list of jurisdiction codes](https://opencorporates.com/companies/jurisdictions). Default is [none/worldwide]
  - `order` e.g. `score`. Default is alphabetic
  - `perPage` e.g. number of results, max. 100. Default is 30 results per page
  - `page` e.g. results page. Default is 1
