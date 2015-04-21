@@ -12,7 +12,13 @@ This module includes all the normal features of the [OpenCorporates REST API](ht
 
 If you're unsure of how anything works, check the unit tests, which have examples of all the API calls.
 
-## Version 2 changes
+## Changelog
+
+### Version 2.2 changes
+
+ - Default OpenCorporates API version is now 4.0
+
+### Version 2 changes
 
 If you're upgrading from version 1, the new module has the following changes:
 

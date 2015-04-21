@@ -4,7 +4,7 @@ var superagent = require('superagent'),
 
 var log = console.log.bind(log);
 
-var API_VERSION = '0.3.2'
+var API_VERSION = '0.4'
 
 var ENDPOINT = 'https://api.opencorporates.com/v'+API_VERSION+'/'
 

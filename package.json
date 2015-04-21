@@ -6,7 +6,7 @@
   },
   "name": "opencorporates",
   "description": "The OpenCorporates API.",
-  "version": "2.0.1",
+  "version": "2.2.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/mikemaccana/opencorporates.git"
