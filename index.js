@@ -159,7 +159,6 @@ module.exports = function(apiToken){
 			get: function(name, cb ) {
 				openCorporatesGet( 'corporate_groupings/'+name, function( err, res ) {
 
-					// log('XXXX', err, res)
 					var corp = res.results.corporateGrouping;
 
 					if ( corp && corp.curators ) {
