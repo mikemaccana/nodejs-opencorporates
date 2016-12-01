@@ -97,7 +97,7 @@ module.exports = function(apiToken){
 					cb = options
 					options = {}
 				}
-				options.q = searchTerm // 'q' is OpenCorporates for search term
+				options.q = searchTerm // 'q' is OpenCorporates-speak for search query
 				openCorporatesGet( 'companies/search', options, function( err, res ) {
 					if ( err ) {
 						cb(err)
@@ -144,7 +144,7 @@ module.exports = function(apiToken){
 					cb = options
 					options = {}
 				}
-				options.q = searchTerm // 'q' is OpenCorporates for search term
+				options.q = searchTerm // 'q' is OpenCorporates-speak for search query
 
 				openCorporatesGet( 'officers/search', options, function( err, res ) {
 					if ( err ) {
@@ -181,7 +181,7 @@ module.exports = function(apiToken){
 					cb = options
 					options = {}
 				}
-				options.q = searchTerm // 'q' is OpenCorporates for search term
+				options.q = searchTerm // 'q' is OpenCorporates-speak for search query
 				openCorporatesGet( 'corporate_groupings/search', options, function( err, res ) {
 					if ( err ) {
 						cb(err)
