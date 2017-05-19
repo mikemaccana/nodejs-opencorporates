@@ -6,7 +6,7 @@
   },
   "name": "opencorporates",
   "description": "The OpenCorporates API.",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/mikemaccana/opencorporates.git"
@@ -18,7 +18,7 @@
   "dependencies": {
     "camelify-recursive": "^1.0.0",
     "change-case": "^2.3.0",
-    "superagent": "^1.2.0"
+    "superagent": "^3.5.2"
   },
   "devDependencies": {},
   "optionalDependencies": {},
@@ -31,7 +31,5 @@
     "gov",
     "government"
   ],
-  "license": {
-    "type": "MIT"
-  }
+  "license": "MIT"
 }
