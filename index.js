@@ -6,7 +6,7 @@ var log = console.log.bind(log);
 
 var API_VERSION = '0.4'
 
-var ENDPOINT = 'https://api.opencorporates.com/v'+API_VERSION+'/'
+var ENDPOINT = `https://api.opencorporates.com/v${API_VERSION}/`
 
 var USER_AGENT = 'opencorporates.js (https://github.com/mikemaccana/opencorporates)'
 
@@ -29,7 +29,7 @@ module.exports = function(apiToken){
 	// eg, results.bananas = [{'banana': {actual banana object}}, {'banana': {actual banana object}}]
 	// This is weird, and makes data.bananas.forEach(function(banana){...}) not work.
 	// Instead, you'd use data.bananas.forEach(function(banana){ ...}) then work with 'banana.banana' which is just weird.
-	// Let's clean it up so: we just return [banana, banana]
+	// Let's clean it up so: we just return banana, banana]
 	var getCleanArray = function(categoryResults, itemName ) {
 		var cleanArray = [];
 		if ( Array.isArray(categoryResults) ) {
@@ -41,25 +41,9 @@ module.exports = function(apiToken){
 		return cleanArray.length > 0 ? cleanArray : null
 	}
 
-	function buildMetaData( res ) {
-		res = res || {}
-		return {
-			page: res.page || 0,
-			perPage: res.per_page || 0,
-			totalPages: res.total_pages || 0,
-			totalCount: res.total_count || 0
-		}
-	}
-
-	var openCorporatesGet = function(path, rawQuery, cb ) {
-		if( typeof rawQuery === 'function' ) {
-			cb = rawQuery
-			rawQuery = {}
-		}
-
-
+	var formatQuery = function(rawQuery){
 		// Convert JS style into OC API
-		var query = rawQuery || {}
+		var query = {}
 		Object.keys(rawQuery).forEach(function(keyName){
 			var value = rawQuery[keyName]
 			// Convert arrays to pipe separated strings
@@ -74,121 +58,82 @@ module.exports = function(apiToken){
 			query.api_token = apiToken;
 		}
 
-		superagent
-		.get(ENDPOINT+path)
-		.query(query)
-		.set('User-Agent', USER_AGENT)
-		.end(function(err, res) {
-			// OpenCorporates has some extra info with their errors
-			err = OPEN_CORPORATES_ERRORS[res.status] || err
-			cb( err, camelify(res.body) )
-		})
+		return query
+	}
+
+	var openCorporatesGet = async function(path, rawQuery) {
+
+		rawQuery = rawQuery || {}
+
+		var query = formatQuery(rawQuery)
+
+		var response = await superagent
+			.get(ENDPOINT+path)
+			.query(query)
+			.set('User-Agent', USER_AGENT);
+
+		// log('response', response)
+
+		if ( OPEN_CORPORATES_ERRORS[response.status] ) {
+			throw new Error(`OpenCorporates error: ${OPEN_CORPORATES_ERRORS[response.status]}`)
+		}
+
+		return camelify(response.body)
 	}
 
 	return {
 		companies: {
-			get: function(jurisdiction, id, cb ) {
-				openCorporatesGet( 'companies/'+jurisdiction+'/'+id, function( err, res ) {
-					cb(err, res.results.company || null )
-				})
+			get: async function(jurisdiction, id) {
+				var response = await openCorporatesGet(`companies/${jurisdiction}/${id}`)
+				return response.results.company
 			},
-			search: function(searchTerm, options, cb ) {
-				if ( typeof options === 'function' ) {
-					cb = options
-					options = {}
-				}
+			search: async function(searchTerm, options) {
+				options = options || {};
 				options.q = searchTerm // 'q' is OpenCorporates-speak for search query
-				openCorporatesGet( 'companies/search', options, function( err, res ) {
-					if ( err ) {
-						cb(err)
-						return
-					}
-					cb( err, getCleanArray(res.results.companies, 'company'), buildMetaData(res) )
-				})
+				var response = await openCorporatesGet(`companies/search`, options)
+				return getCleanArray(response.results.companies, 'company')
 			},
-			filings: function(jurisdiction, id, options, cb ) {
-				if ( typeof options === 'function' ) {
-					cb = options
-					options = {}
-				}
-				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/filings', function( err, res ) {
-					if ( err ) {
-						cb(err)
-						return
-					}
-					cb( err, getCleanArray(res.results.filings, 'filing'), buildMetaData(res) )
-				})
+			filings: async function(jurisdiction, id, options ) {
+				var response = await openCorporatesGet(`companies/${jurisdiction}/${id}/filings`, options)
+				return getCleanArray(response.results.filings, 'filing')
 			},
-			data: function(jurisdiction, id, options, cb ) {
-				if ( typeof options === 'function' ) {
-					cb = options
-					options = {}
-				}
-				openCorporatesGet( 'companies/'+jurisdiction+'/'+id+'/data', options, function( err, res ) {
-					if ( err ) {
-						cb(err)
-						return
-					}
-					cb( err, getCleanArray(res.results.data, 'datum'), buildMetaData(res) )
-				})
+			data: async function(jurisdiction, id, options ) {
+				var response = await openCorporatesGet(`companies/${jurisdiction}/${id}/data`, options)
+				return getCleanArray(response.results.data, 'datum')
 			}
 		},
 		officers: {
-			get: function(id, cb ) {
-				openCorporatesGet( 'officers/'+id, function( err, res ) {
-					cb( err, res.officer || null )
-				})
+			get: async function(id) {
+				var response = await openCorporatesGet(`officers/${id}`)
+				return response.officer
 			},
-			search: function(searchTerm, options, cb ) {
-				if ( typeof options === 'function' ) {
-					cb = options
-					options = {}
-				}
+			search: async  function(searchTerm, options ) {
 				options.q = searchTerm // 'q' is OpenCorporates-speak for search query
-
-				openCorporatesGet( 'officers/search', options, function( err, res ) {
-					if ( err ) {
-						cb(err)
-						return
-					}
-					cb( err, getCleanArray(res.results.officers, 'officer'), buildMetaData(res) )
-				})
+				var response = await openCorporatesGet(`officers/search`, options)
+				return getCleanArray(response.results.officers, 'officer')
 			}
 		},
 		corporateGroupings: {
-			get: function(name, cb ) {
-				openCorporatesGet( 'corporate_groupings/'+name, function( err, res ) {
 
-					var corp = res.results.corporateGrouping;
+			get: async function(name) {
+				var response = await openCorporatesGet(`corporate_groupings/${name}`)
 
-					if ( corp && corp.curators ) {
-						corp.curators = getCleanArray( corp.curators, 'user' )
-					}
-
-					if ( corp && corp.memberships ) {
-						corp.memberships = getCleanArray( corp.memberships, 'membership' )
-					}
-					if ( err ) {
-						cb(err)
-						return
-					}
-
-					cb( err, corp )
-				})
-			},
-			search: function(searchTerm, options, cb ) {
-				if ( typeof options === 'function' ) {
-					cb = options
-					options = {}
+				var corp = response.results.corporateGrouping;
+				if ( corp && corp.curators ) {
+					corp.curators = getCleanArray( corp.curators, 'user' )
 				}
-				options.q = searchTerm // 'q' is OpenCorporates-speak for search query
-				openCorporatesGet( 'corporate_groupings/search', options, function( err, res ) {
-					if ( err ) {
-						cb(err)
-						return
-					}
-					cb( err, getCleanArray(res.results.corporateGroupings, 'corporateGrouping' ), buildMetaData( res ) )
-				})
+
+				if ( corp && corp.memberships ) {
+					corp.memberships = getCleanArray( corp.memberships, 'membership' )
+				}
+
+				return corp
+
+			},
+			search: async function(searchTerm, options){
+				options.q = searchTerm; // 'q' is OpenCorporates-speak for search query
+				var response = await openCorporatesGet(`corporate_groupings/search`, options)
+				return getCleanArray(response.results.corporateGroupings, 'corporateGrouping' )
 			}
 		}
 	}

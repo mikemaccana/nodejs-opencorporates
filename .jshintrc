@@ -3,6 +3,9 @@
     // Node comes with console, so does every modern browser
     "console"
   ],
+  "unused": true, // No unused variables
   "asi" : true, // Tolerate Automatic Semicolon Insertion (no semicolons).
-  "esnext": true
+  "esnext": true,
+  "-W047": true, // Ignore "A trailing decimal point can be confused with a dot" on Number methods,
+  "-W005": true // Ignore "A dot following a number can be confused with a decimal point" on Number methods
 }

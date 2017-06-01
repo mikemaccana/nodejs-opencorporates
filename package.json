@@ -6,13 +6,16 @@
   },
   "name": "opencorporates",
   "description": "The OpenCorporates API.",
-  "version": "2.2.2",
+  "version": "3.0.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/mikemaccana/opencorporates.git"
   },
   "bugs": {
     "url": "https://github.com/mikemaccana/opencorporates/issues"
+  },
+  "engines": {
+    "node": "<8.0.0"
   },
   "main": "index.js",
   "dependencies": {
@@ -22,9 +25,6 @@
   },
   "devDependencies": {},
   "optionalDependencies": {},
-  "engines": {
-    "node": "*"
-  },
   "keywords": [
     "opencorporates",
     "companies",

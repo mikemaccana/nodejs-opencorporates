@@ -12,7 +12,20 @@ This module includes all the normal features of the [OpenCorporates REST API](ht
 
 If you're unsure of how anything works, check the unit tests, which have examples of all the API calls.
 
+# Now requires node 8
+
+This library now uses async/awaitfrom node 8. This means you can `await` results from your opencorporates without callbacks.
+
 ## Changelog
+
+### Version 3 changes
+
+ - **Now uses async/await** from node 8.
+ - Calls only return results - meta information is considered internal
+
+```js
+await openCorporates.companies.get('us_ca', 'C3268102')
+```
 
 ### Version 2.2 changes
 
@@ -47,14 +60,12 @@ API results are converted to camelCase so you can use the keys directly in your 
 
 ## openCorporates.companies
 
-### openCorporates.companies.get(jurisdictionCode, companyID, cb)
+### openCorporates.companies.get(jurisdictionCode, companyID)
 
 Get a single company. Example:
 
 ```js
-openCorporates.companies.get('us_ca', 'C3268102', function(err, res){
-	console.log(JSON.stringify(res, null, 2))
-})
+await openCorporates.companies.get('us_ca', 'C3268102')
 ```
 
 ```js
@@ -128,7 +139,7 @@ openCorporates.companies.get('us_ca', 'C3268102', function(err, res){
 	}
 ```
 
-### openCorporates.companies.search(searchTerm, [filters], cb)
+### openCorporates.companies.search(searchTerm, [filters])
 
 Search a company.
 
@@ -173,12 +184,12 @@ This will return:
 			"previousNames": [],
 			"registeredAddressInFull": "548 4TH STREET, SAN FRANCISCO, CA 94107"
 		},
-	  ...many more companies omitted....
+		...many more companies omitted....
 	]
 }
 ```
 
-### openCorporates.companies.filings(jurisdiction, id, [filters], callback)
+### openCorporates.companies.filings(jurisdiction, id, [filters])
 
 Get available filings for a company.
 
@@ -197,7 +208,7 @@ openCorporates.companies.filings( 'C3268102', console.log )
  - `page` e.g. results page. Default is 1
 
 
-### openCorporates.companies.data(jurisdiction, id, [filters], callback)
+### openCorporates.companies.data(jurisdiction, id, [filters])
 
 Get more available data for a company.
 
@@ -212,7 +223,7 @@ openCorporates.companies.filings( 'C3268102', console.log )
 
 ## openCorporates.officers
 
-### openCorporates.officers.get( id, callback)
+### openCorporates.officers.get( id)
 
 Get an officer by ID.
 
@@ -221,7 +232,7 @@ openCorporates.officers.get( '21200360', console.log )
 ```
 
 
-### openCorporates.officers.search( query, [filters], callback )
+### openCorporates.officers.search( query, [filters] )
 
 Search officers.
 
@@ -231,7 +242,7 @@ Search officers.
 
 
 ```js
-openCorporates.officers.search( 'bart simpson', callback )
+openCorporates.officers.search( 'bart simpson' )
 ```
 
 ## openCorporates.corporateGroupings
@@ -242,7 +253,7 @@ From [OpenCorporates Corporate Grouping description:](http://blog.opencorporates
 > "A CorporateGrouping is a user-curated collection of companies that belong to some human-understand concept of a corporation (which maps to the Wikipedia article about that corporation)."
 
 
-### openCorporates.corporateGroupings.get ( name, callback )
+### openCorporates.corporateGroupings.get ( name )
 
 Get extended data about a corporate grouping, by its name.
 
@@ -251,7 +262,7 @@ openCorporates.corporateGroupings.get( 'bp', console.log )
 ```
 
 
-### openCorporates.corporateGroupings.search ( query, [filters], callback )
+### openCorporates.corporateGroupings.search ( query, [filters] )
 
 ```js
 openCorporates.corporateGroupings.search( 'bp', console.log )
