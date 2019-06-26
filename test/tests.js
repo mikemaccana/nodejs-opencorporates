@@ -2,69 +2,69 @@
 // http://visionmedia.github.com/mocha/
 // http://nodejs.org/docs/latest/api/assert.html
 const assert = require('assert'),
-	openCorporates = require('../index.js')()
+  openCorporates = require('../index.js')()
 
 const log = console.log;
 
-suite('Companies', function(){
+suite('Companies', function () {
 
-	test('Getting a company', async function(){
-		this.timeout(5 * 1000);
-		const company = await openCorporates.companies.get('us_ca', 'C2474131')
-		assert.equal(company.registeredAddress.streetAddress, `1600 AMPHITHEATRE PKWY\nMOUNTAIN VIEW CA 94043`)
-	})
+  test('Getting a company', async function () {
+    this.timeout(5 * 1000);
+    const company = await openCorporates.companies.get('us_ca', 'C2474131')
+    assert.equal(company.registeredAddress.streetAddress, `1600 AMPHITHEATRE PKWY\nMOUNTAIN VIEW CA 94043`)
+  })
 
-	test('Getting filings', async function(){
-		this.timeout(5 * 1000);
-		const filings = await openCorporates.companies.filings('us_ca', 'C2474131')
-		assert.equal(filings.title)
-	})
+  test('Getting filings', async function () {
+    this.timeout(5 * 1000);
+    const filings = await openCorporates.companies.filings('us_ca', 'C2474131')
+    assert.equal(filings.title)
+  })
 
-	test('Search US and Canada', async function(){
-		this.timeout(5 * 1000);
-		try {
-			const results = await openCorporates.companies.search('rogers', {countryCode: ['us','ca']})
-		} catch (error) {
-			assert.equal(error.message, 'Unauthorized')
-		}
-	})
+  test('Search US and Canada', async function () {
+    this.timeout(5 * 1000);
+    try {
+      const results = await openCorporates.companies.search('rogers', { countryCode: ['us', 'ca'] })
+    } catch (error) {
+      assert.equal(error.message, 'Unauthorized')
+    }
+  })
 
-	test('Search worldwide by address', async function(){
-		this.timeout(5 * 1000);
-		const results = await openCorporates.companies.search(null, {registeredAddress: '10 EAST 39TH NEW YORK'})
-		assert(results[10].registeredAddress)
-	})
+  test('Search worldwide by address', async function () {
+    this.timeout(5 * 1000);
+    const results = await openCorporates.companies.search(null, { registeredAddress: '10 EAST 39TH NEW YORK' })
+    assert(results[10].registeredAddress)
+  })
 
-	test('Search worldwide', async function(){
-		this.timeout(5 * 1000);
-		const results = await openCorporates.companies.search('Tullamarine Valve')
-		assert(results[0].companyNumber)
-	})
+  test('Search worldwide', async function () {
+    this.timeout(5 * 1000);
+    const results = await openCorporates.companies.search('Tullamarine Valve')
+    assert(results[0].companyNumber)
+  })
 
-	test('Data', async function(){
-		this.timeout(5 * 1000);
-		const results = await openCorporates.companies.data('us_ca', 'C3268102')
-		var expected = null
-		assert.deepEqual(results, expected)
-	})
+  test('Data', async function () {
+    this.timeout(5 * 1000);
+    const results = await openCorporates.companies.data('us_ca', 'C3268102')
+    var expected = null
+    assert.deepEqual(results, expected)
+  })
 
-	test('Search in jurisdiction', async function(){
-		this.timeout(5 * 1000);
-		try {
-			const results = await openCorporates.companies.search('github', {countryCode: 'us'})
-		} catch (error) {
-			assert.equal(error.message, 'Unauthorized')
-		}
-	})
+  test('Search in jurisdiction', async function () {
+    this.timeout(5 * 1000);
+    try {
+      const results = await openCorporates.companies.search('github', { countryCode: 'us' })
+    } catch (error) {
+      assert.equal(error.message, 'Unauthorized')
+    }
+  })
 })
 
-suite('Corporate groupings', function(){
+suite('Corporate groupings', function () {
 
-	test('Filings', async function(){
-		this.timeout(5 * 1000);
-		const results = await openCorporates.corporateGroupings.get('bp')
-		assert.equal(results.memberships.length, 112)
-	})
+  test('Filings', async function () {
+    this.timeout(5 * 1000);
+    const results = await openCorporates.corporateGroupings.get('bp')
+    assert.equal(results.memberships.length, 112)
+  })
 
 })
 
