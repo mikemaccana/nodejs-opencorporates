@@ -158,7 +158,7 @@ openCorporates.companies.search( 'github', function(err, res){
 
 This will return:
 
-```js
+```jsON
 	[
 
 		{
