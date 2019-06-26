@@ -10,18 +10,18 @@ This module includes all the normal features of the [OpenCorporates REST API](ht
  - Results and metadata are returned seperately
  - Clean arrays, eg, OpenCorporates would normally return `items = [{'item': {actual item object}}, {'item': {actual item object}}` whereas this module will return `items = [{actual item object}, {actual item object}]`. So `items.forEach(function(item){})` works properly.
 
-If you're unsure of how anything works, check the unit tests, which have examples of all the API calls.
+If you're unsure of how anything works, look at the unit tests, which have examples of all the API calls.
 
 # Now requires node 8
 
-This library now uses async/awaitfrom node 8. This means you can `await` results from your opencorporates without callbacks.
+This library now uses async/await from node 8. This means you can `await` results from opencorporates without callbacks.
 
 ## Changelog
 
 ### Version 3 changes
 
  - **Now uses async/await** from node 8.
- - Calls only return results - meta information is considered internal
+ - Calls only return results - meta information is considered internal.
 
 ```js
 await openCorporates.companies.get('us_ca', 'C3268102')
