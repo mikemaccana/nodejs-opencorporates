@@ -2,6 +2,12 @@
 
 The [OpenCorporates](http://opencorporates.com) API.
 
+## node 12 note
+
+OpenCorporates currently has an issue: their server is sending both a Content-Length header and a Transfer-Encoding: chunked header, which is a violation of the HTTP spec.
+
+node 12's HTTP client flags this error. We are currently awaiting a fic from OpenCorporates.
+
 ## Features
 
 This module includes all the normal features of the [OpenCorporates REST API](http://api.opencorporates.com/documentation/REST-API-introduction) and adds the following:
