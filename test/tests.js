@@ -45,7 +45,7 @@ suite('Companies', function () {
     this.timeout(5 * 1000);
     const results = await openCorporates.companies.data('us_ca', 'C3268102')
     var expected = "Mailing Address"
-    assert.deepEqual(results.title, expected)
+    assert.deepEqual(results[0].title, expected)
   })
 
   test('Search in jurisdiction', async function () {
